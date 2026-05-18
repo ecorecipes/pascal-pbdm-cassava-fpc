@@ -1,3 +1,15 @@
+{ Authors: 
+- Andrew Paul Gutierrez (University of California, Berkeley / CASAS Global 
+	(Center for Analysis of Sustainable Agriculture Systems) 
+	<casas.kensington gmail.com>
+- Luigi Ponti (ENEA - Agenzia nazionale per le nuove tecnologie, l'energia e 
+	lo sviluppo economico sostenibile / CASAS Global) <quartese gmail.com>
+
+Copyright: (C) CASAS Global (Center for the Analysis of Sustainable 
+	Agricultural Systems)
+
+SPDX-License-Identifier: GPL-3.0-or-later }
+
 Procedure ZeroPools;
 {
 	Called to zero all pools at start of season.

@@ -37,12 +37,14 @@ The `Summary.txt` file is used for statistical analyses and the means, std and c
 Then the analysis can begin.
 
 Andrew Paul Gutierrez
+
 Luigi Ponti
 
 ## License
 
-GPL-3.0-or-later
+SPDX-License-Identifier: [GPL-3.0-or-later](https://spdx.org/licenses/GPL-3.0-or-later.html)
 
-## Author
+## Authors
 
-Andrew Paul Gutierrez (University of California, Berkeley / CASAS Global)
+- Andrew Paul Gutierrez (University of California, Berkeley / CASAS Global - Center for Analysis of Sustainable Agriculture Systems)
+- Luigi Ponti (ENEA - Agenzia nazionale per le nuove tecnologie, l'energia e lo sviluppo economico sostenibile / CASAS Global)
