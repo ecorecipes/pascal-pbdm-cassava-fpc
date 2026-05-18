@@ -4,7 +4,7 @@
 
 ## Description
 
-The meta population cassava GIS model was developed for scientific purposes and should not be used for commercial purposes. Copyright is held by the [Center for Analysis of Sustainable Agriculture Systems](https://www.casasglobal.org/). The code has developer idiosyncrasies and is best used to develop similar code for other systems. The code is offered free access without warranty.
+The meta population cassava GIS model was developed for scientific purposes and should not be used for commercial purposes. Copyright is held by the [Center for the Analysis of Sustainable Agricultural Systems](https://www.casasglobal.org/). The code has developer idiosyncrasies and is best used to develop similar code for other systems. The code is offered free access without warranty.
 
 The repository has the following components to compile and run the model:
 
