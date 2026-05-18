@@ -1,6 +1,6 @@
 # Pascal code for the cassava tri-trophic PBDM system
 
-[![DOI](https://zenodo.org/badge/914567284.svg)](https://doi.org/10.5281/zenodo.17544160)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20274693.svg)](https://doi.org/10.5281/zenodo.17544160)
 
 ## Description
 
