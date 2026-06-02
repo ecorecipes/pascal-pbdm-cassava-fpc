@@ -61,6 +61,56 @@ damage matches within ~8%. Remaining quantitative gaps are attributable to the c
 re-fit of the endemic fungal-pathogen mortality cap that post-dates the paper's runs),
 **not** to the port itself. See `PORTING_NOTES.md` for details.
 
+## Quick start
+
+Prerequisites: [Free Pascal](https://www.freepascal.org/) (`fpc`). The data tools also
+need the NetCDF C library (`brew install netcdf` on macOS, `sudo apt install
+libnetcdf-dev` on Debian/Ubuntu, `conda install -c conda-forge netcdf-c` on Windows).
+On Windows use the `.ps1` scripts shown in parentheses.
+
+```bash
+# 1. Clone
+git clone https://github.com/ecorecipes/pascal-pbdm-cassava-fpc
+cd pascal-pbdm-cassava-fpc
+
+# 2. Build the model              (Windows: .\build-fpc.ps1)
+./build-fpc.sh
+
+# 3. Run immediately with the bundled sample weather (no download needed)
+cd cassava
+./cassava Cassava.det.ini 01 01 1980 12 31 1985 365 wx.det.txt
+```
+
+That produces georeferenced `Cassava_<date>_NNNNN.txt` outputs plus
+`CassavaSummaries.txt` in `cassava/`. To run your own scenario, edit
+`cassava/Cassava.ini` (species switches and initial conditions; positional format) and
+supply a weather file. The argument order is:
+
+```text
+cassava <ini> <startMM> <startDD> <startYYYY> <endMM> <endDD> <endYYYY> <gisInterval> <weatherFile>
+```
+
+To reproduce the paper's Africa-wide inputs instead of the bundled sample, build the
+data tools and download the datasets (large; ~1 GB+):
+
+```bash
+# Build the NetCDF data tools     (Windows: .\tools\build-tools.ps1)
+./tools/build-tools.sh
+
+# Fetch CROPGRIDS cassava grid + country borders, derive the cell mask
+./tools/download_cropgrids --natural-earth
+./tools/build_cassava_mask
+
+# Convert AgMERRA NetCDF drivers to Pascal weather text (1980–2010)
+./tools/agmerra_to_pascal_weather \
+  --points-file data/cropgrids/cassava_africa_mask_agmerra.csv \
+  --start-year 1980 --end-year 2010
+```
+
+See **[`docs/getting-started.md`](docs/getting-started.md)** for a step-by-step guide
+(per-OS prerequisites, exact tool flags, data layout, editing the `.ini`, interpreting
+outputs, and the numerical-platform notes).
+
 ---
 
 # Pascal code for the cassava tri-trophic PBDM system
