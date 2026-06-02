@@ -1,3 +1,64 @@
+# Free Pascal port of the cassava tri-trophic PBDM
+
+This repository is a **[Free Pascal](https://www.freepascal.org/) port** of the CASAS
+cassava tri-trophic PBDM, modernized from the legacy Borland Delphi 3 sources so the
+model compiles and runs with the open-source `fpc` compiler on macOS, Linux, and
+Windows. It aims to preserve the scientific behavior of the original model as used in:
+
+> Gutierrez, A.P., Ponti, L., Neuenschwander, P. et al. Predicting natural enemy efficacy
+> in biological control using ex-ante analyses. *Sci Rep* **15**, 44886 (2025).
+> <https://doi.org/10.1038/s41598-025-29022-1>
+
+The original Delphi description and run instructions are preserved unchanged
+[further down](#pascal-code-for-the-cassava-tri-trophic-pbdm-system).
+
+## What is different in this port
+
+- **Builds with Free Pascal.** Compile the native binary with `./build-fpc.sh`
+  (equivalently `cd cassava && fpc -Mdelphi cassava.pas`). Delphi mode (`-Mdelphi`) is
+  the baseline compatibility mode.
+- **Delphi-compatible random numbers.** Free Pascal's `Random` uses a Mersenne Twister,
+  whereas Delphi 3 uses a linear congruential generator (LCG). Since the model is
+  sensitive to stochastic plant placement, `cassava/rng.pas` provides a pluggable RNG
+  that shadows `System.Random` and defaults to a Delphi-compatible LCG (multiplier
+  `$08088405`, increment 1) so output can be compared bit-for-bit with the legacy build.
+- **Reconstructed `spatial.pas`.** The source for the original `spatial.dcu` was lost.
+  It has been reconstructed as `cassava/spatial.pas` by disassembling the compiled unit
+  and validating against a genuine Delphi 3 golden master; it is verified byte-faithful
+  to the original.
+- **Data tooling.** `tools/` contains Python and equivalent Free Pascal utilities to
+  fetch and prepare the inputs used in the paper: an AgMERRA NetCDF → Pascal weather
+  converter, a CROPGRIDS cassava-grid downloader, and a builder for the African cassava
+  weather-points mask.
+- **Documentation.** `PORTING_NOTES.md` records the full port, the `spatial`
+  reconstruction, the Delphi 3 golden-master setup, the floating-point findings, and
+  reusable patterns for porting other CASAS Delphi models. Render it to HTML/Word/PDF
+  with `./render-notes.sh`.
+
+## Numerical reproducibility across platforms
+
+Output differs slightly by floating-point execution model, **not** by logic:
+
+- The legacy Delphi 3 build and a Free Pascal **i386 (x87)** build use the 80-bit
+  extended x87 FPU and agree to within ≤0.031% (first simulated year exact).
+- Every **64-bit scalar-double** build — native **arm64 (Apple Silicon)** and
+  **x86-64 (SSE2)** — is bit-identical to the others but sits ~0.26% from the x87
+  results. This is the well-known x87-80-bit vs IEEE-754-64-bit intermediate-precision
+  difference and is irreducible without an 80-bit-extended backend. For the
+  modernization target (native arm64/x86-64), the 64-bit build is correct and stable.
+
+## Paper reproduction status
+
+The `reproduction/` framework reproduces the paper's Africa-wide marginal-effect
+analyses. **Qualitative results reproduce** (A. lopezi > A. diversicornis;
+T. aripo > A. manihoti; cassava mealybug biocontrol recovery ≈95%), and CM marginal
+damage matches within ~8%. Remaining quantitative gaps are attributable to the cassava
+"belt" cell-selection definition and to legacy-source version drift (a dated 2024
+re-fit of the endemic fungal-pathogen mortality cap that post-dates the paper's runs),
+**not** to the port itself. See `PORTING_NOTES.md` for details.
+
+---
+
 # Pascal code for the cassava tri-trophic PBDM system
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20274693.svg)](https://doi.org/10.5281/zenodo.20274693)
