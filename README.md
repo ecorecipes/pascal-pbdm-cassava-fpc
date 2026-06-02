@@ -16,7 +16,11 @@ The original Delphi description and run instructions are preserved unchanged
 
 - **Builds with Free Pascal.** Compile the native binary with `./build-fpc.sh`
   (equivalently `cd cassava && fpc -Mdelphi cassava.pas`). Delphi mode (`-Mdelphi`) is
-  the baseline compatibility mode.
+  the baseline compatibility mode. On **Windows**, where bash is not available, use the
+  equivalent PowerShell scripts: `.\build-fpc.ps1` (model), `.\tools\build-tools.ps1`
+  (NetCDF data tools), `.\build-fpc-x87.ps1` (32-bit x87 diagnostic build), and
+  `.\render-notes.ps1` (docs). The `.ps1` scripts also run cross-platform under
+  PowerShell 7 (`pwsh`).
 - **Delphi-compatible random numbers.** Free Pascal's `Random` uses a Mersenne Twister,
   whereas Delphi 3 uses a linear congruential generator (LCG). Since the model is
   sensitive to stochastic plant placement, `cassava/rng.pas` provides a pluggable RNG

@@ -62,6 +62,9 @@
 cassava/cassava
 tests/spatial_probe
 
+# x87 diagnostic build dir (build-fpc-x87.sh / build-fpc-x87.ps1 default)
+build-x87/
+
 # Synthetic comparison output, if run locally with TMPDIR pointing into the repo
 pbdm-cassava-fpc-synthetic-compare/
 

@@ -27,6 +27,13 @@ repo-relative or `$HOME`-relative paths, never machine-absolute paths.
 - **Diagnostic builds under wine** (FP-comparison only, see §6–7):
   - `build-fpc-x87.sh` — 32-bit i386-win32 (x87 80-bit extended), matches Delphi 3.
   - `build-fpc-win64.sh` — 64-bit x86_64-win64 (SSE2 scalar double), matches arm64.
+- **Windows / PowerShell:** bash is not available on a stock Windows install, so
+  PowerShell equivalents are provided and also run cross-platform under PowerShell 7
+  (`pwsh`): `build-fpc.ps1`, `tools/build-tools.ps1`, `render-notes.ps1`, and
+  `build-fpc-x87.ps1`. The x87 `.ps1` builds an i386-win32 binary **natively** on
+  Windows (no wine; needs the i386 FPC compiler `ppc386.exe`); its default build dir is
+  `build-x87/` (git-ignored). When editing a build/render `.sh` script, keep its `.ps1`
+  twin in step.
 - Build artifacts (`cassava/cassava`, `*.ppu`, `*.o`, compiled tool binaries,
   `__pycache__`) are git-ignored via the root `.gitignore` and `tools/.gitignore`;
   only source is tracked.
