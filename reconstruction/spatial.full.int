@@ -1,0 +1,1673 @@
+unit spatial; {Flags: $0}
+{
+Compiled by Delphi 3
+Source files:
+  spatial.pas (1-1-98 01:05:01)}
+
+interface
+
+uses
+  modutils {
+    A:min, A:max, T:i100, A:shufl, A:Expo},
+  globals {
+    A:casPtrs, A:ncas, A:deck, T:plantrec, A:plantsperrow, A:maxwidth,
+    A:scattered, A:plantspacing, A:rowspacing, A:casvar},
+  SysInit,
+  System {
+    T:Integer, T:Single, T:Boolean, A:True, A:False, A:Abs, T:Word, A:Sqrt,
+    A:@HandleFinally};
+
+function cellarea{40,79D53A6A}{B0:0,Sz:140,VProc:2}
+  (val i: {T#3}System.Integer{F:B Ofs:0=EAX};
+  val j: {T#3}System.Integer{F:B Ofs:1=EDX};
+  val l: {T#4}System.Single{F:13 Ofs:20};
+  val t: {T#4}System.Single{F:13 Ofs:16};
+  val r: {T#4}System.Single{F:13 Ofs:12};
+  val b: {T#4}System.Single{F:13 Ofs:8}): {T#4}System.Single;
+
+function inwind{40,45262B18}{B0:0,Sz:63,VProc:2}
+  (val xl: {T#3}System.Integer{F:B Ofs:0=EAX};
+  val xr: {T#3}System.Integer{F:B Ofs:1=EDX};
+  val ya: {T#3}System.Integer{F:B Ofs:2=ECX};
+  val yb: {T#3}System.Integer{F:B Ofs:4=ESI};
+  val left: {T#3}System.Integer{F:B Ofs:5=EDI};
+  val right: {T#3}System.Integer{F:13 Ofs:16};
+  val top: {T#3}System.Integer{F:13 Ofs:12};
+  val bottom: {T#3}System.Integer{F:13 Ofs:8}): {T#5}System.Boolean;
+
+procedure setsides{40,51F89FF7}{B0:0,Sz:6FC,VProc:8};
+
+procedure Finalization{40,51F89FF7}{B0:0,Sz:2E,VProc:808};
+
+procedure spatial{40,0}{B0:0,Sz:8,VProc:408};
+
+implementation
+
+var
+  _DV_1{33,0}: {T#7}{Sz: 4, RTTISz: 0, hAddr: 0}{(T#7),B:0}-$80000000..$7FFFFFFF{Ofs:$0};
+
+function cellarea{40,79D53A6A}{B0:0,Sz:140,VProc:2}
+  (val i: {T#3}System.Integer{F:B Ofs:0=EAX};
+  val j: {T#3}System.Integer{F:B Ofs:1=EDX};
+  val l: {T#4}System.Single{F:13 Ofs:20};
+  val t: {T#4}System.Single{F:13 Ofs:16};
+  val r: {T#4}System.Single{F:13 Ofs:12};
+  val b: {T#4}System.Single{F:13 Ofs:8}): {T#4}System.Single
+{LVFlags: 30,20, 10,0,1};
+var
+  local Result: {T#4}System.Single{F:33 Ofs:-4};
+  local nl: {T#4}System.Single{F:33 Ofs:-8};
+  local nt: {T#4}System.Single{F:33 Ofs:-12};
+  local nr: {T#4}System.Single{F:33 Ofs:-16};
+  local nb: {T#4}System.Single{F:33 Ofs:-20};
+  local h: {T#4}System.Single{F:33 Ofs:-24};
+  local w: {T#4}System.Single{F:33 Ofs:-28};
+begin//raw[$140]at $0
+// -- Line #19 -- 
+  000_0472: U      [55                  | PUSH EBP
+  001_0473: ãÏ     |8B EC               | MOV EBP,ESP
+  003_0475: Éƒ‡    |83 C4 E0            | ADD ESP,-32
+// -- Line #21 -- 
+  006_0478: âE‡    |89 45 E0            | MOV DWORD PTR [EBP-32],EAX{@i}
+  009_047B: €E‡    |DB 45 E0            | FILD DWORD PTR [EBP-32]
+  00C_047E: ÿ.8... |D8 0D(38 01 00 00   | FMUL DWORD PTR [&K1 '' {cellarea{#$1E}+312}]
+  012_0484: ÿ%<... |D8 25(3C 01 00 00   | FSUB DWORD PTR [&K1 '' {cellarea{#$1E}+316}]
+  018_048A: Ÿ]¯    |D9 5D F8            | FSTP DWORD PTR [EBP-8{nl}]
+  01B_048D: õ      |9B                  | FWAIT 
+// -- Line #22 -- 
+  01C_048E: âE‡    |89 45 E0            | MOV DWORD PTR [EBP-32],EAX{@i}
+  01F_0491: €E‡    |DB 45 E0            | FILD DWORD PTR [EBP-32]
+  022_0494: ÿ.8... |D8 0D(38 01 00 00   | FMUL DWORD PTR [&K1 '' {cellarea{#$1E}+312}]
+  028_049A: ÿ%8... |D8 25(38 01 00 00   | FSUB DWORD PTR [&K1 '' {cellarea{#$1E}+312}]
+  02E_04A0: Ÿ]    |D9 5D F0            | FSTP DWORD PTR [EBP-16{nr}]
+  031_04A3: õ      |9B                  | FWAIT 
+// -- Line #23 -- 
+  032_04A4: âU‡    |89 55 E0            | MOV DWORD PTR [EBP-32],EDX{@j}
+  035_04A7: €E‡    |DB 45 E0            | FILD DWORD PTR [EBP-32]
+  038_04AA: ÿ.8... |D8 0D(38 01 00 00   | FMUL DWORD PTR [&K1 '' {cellarea{#$1E}+312}]
+  03E_04B0: ÿ%<... |D8 25(3C 01 00 00   | FSUB DWORD PTR [&K1 '' {cellarea{#$1E}+316}]
+  044_04B6: Ÿ]Ù    |D9 5D F4            | FSTP DWORD PTR [EBP-12{nt}]
+  047_04B9: õ      |9B                  | FWAIT 
+// -- Line #24 -- 
+  048_04BA: âU‡    |89 55 E0            | MOV DWORD PTR [EBP-32],EDX{@j}
+  04B_04BD: €E‡    |DB 45 E0            | FILD DWORD PTR [EBP-32]
+  04E_04C0: ÿ.8... |D8 0D(38 01 00 00   | FMUL DWORD PTR [&K1 '' {cellarea{#$1E}+312}]
+  054_04C6: ÿ%8... |D8 25(38 01 00 00   | FSUB DWORD PTR [&K1 '' {cellarea{#$1E}+312}]
+  05A_04CC: Ÿ]Ï    |D9 5D EC            | FSTP DWORD PTR [EBP-20{nb}]
+  05D_04CF: õ      |9B                  | FWAIT 
+// -- Line #27 -- 
+  05E_04D0: 3¿     |33 C0               | XOR EAX,EAX
+  060_04D2: âE‰    |89 45 E4            | MOV DWORD PTR [EBP-28{w}],EAX
+// -- Line #28 -- 
+  063_04D5: ŸE.    |D9 45 14            | FLD DWORD PTR [EBP+20{l}]
+  066_04D8: ÿ]¯    |D8 5D F8            | FCOMP DWORD PTR [EBP-8{nl}]
+  069_04DB: ﬂ‡     |DF E0               | FNSTSW AX
+  06B_04DD: û      |9E                  | SAHF 
+  06C_04DE: r.     |72 12               | JB +18 (0x80)
+  06E_04E0: ˇu.    |FF 75 0C            | PUSH DWORD PTR [EBP+12{r}]
+  071_04E3: ˇu    |FF 75 F0            | PUSH DWORD PTR [EBP-16{nr}]
+  074_04E6: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  079_04EB: ÿe.    |D8 65 14            | FSUB DWORD PTR [EBP+20{l}]
+  07C_04EE: Ÿ]‰    |D9 5D E4            | FSTP DWORD PTR [EBP-28{w}]
+  07F_04F1: õ      |9B                  | FWAIT 
+// -- Line #30 -- 
+  080_04F2: ŸE.    |D9 45 14            | FLD DWORD PTR [EBP+20{l}]
+  083_04F5: ÿ]¯    |D8 5D F8            | FCOMP DWORD PTR [EBP-8{nl}]
+  086_04F8: ﬂ‡     |DF E0               | FNSTSW AX
+  088_04FA: û      |9E                  | SAHF 
+  089_04FB: s.     |73 15               | JNB +21 (0xA0)
+  08B_04FD: ŸE.    |D9 45 0C            | FLD DWORD PTR [EBP+12{r}]
+  08E_0500: ÿ]    |D8 5D F0            | FCOMP DWORD PTR [EBP-16{nr}]
+  091_0503: ﬂ‡     |DF E0               | FNSTSW AX
+  093_0505: û      |9E                  | SAHF 
+  094_0506: w.     |77 0A               | JNBE +10 (0xA0)
+  096_0508: ŸE.    |D9 45 0C            | FLD DWORD PTR [EBP+12{r}]
+  099_050B: ÿe¯    |D8 65 F8            | FSUB DWORD PTR [EBP-8{nl}]
+  09C_050E: Ÿ]‰    |D9 5D E4            | FSTP DWORD PTR [EBP-28{w}]
+  09F_0511: õ      |9B                  | FWAIT 
+// -- Line #31 -- 
+  0A0_0512: ŸE.    |D9 45 14            | FLD DWORD PTR [EBP+20{l}]
+  0A3_0515: ÿ]¯    |D8 5D F8            | FCOMP DWORD PTR [EBP-8{nl}]
+  0A6_0518: ﬂ‡     |DF E0               | FNSTSW AX
+  0A8_051A: û      |9E                  | SAHF 
+  0A9_051B: s.     |73 15               | JNB +21 (0xC0)
+  0AB_051D: ŸE.    |D9 45 0C            | FLD DWORD PTR [EBP+12{r}]
+  0AE_0520: ÿ]    |D8 5D F0            | FCOMP DWORD PTR [EBP-16{nr}]
+  0B1_0523: ﬂ‡     |DF E0               | FNSTSW AX
+  0B3_0525: û      |9E                  | SAHF 
+  0B4_0526: v.     |76 0A               | JBE +10 (0xC0)
+  0B6_0528: ŸE    |D9 45 F0            | FLD DWORD PTR [EBP-16{nr}]
+  0B9_052B: ÿe¯    |D8 65 F8            | FSUB DWORD PTR [EBP-8{nl}]
+  0BC_052E: Ÿ]‰    |D9 5D E4            | FSTP DWORD PTR [EBP-28{w}]
+  0BF_0531: õ      |9B                  | FWAIT 
+// -- Line #34 -- 
+  0C0_0532: 3¿     |33 C0               | XOR EAX,EAX
+  0C2_0534: âEË    |89 45 E8            | MOV DWORD PTR [EBP-24{h}],EAX
+// -- Line #35 -- 
+  0C5_0537: ŸE.    |D9 45 10            | FLD DWORD PTR [EBP+16{t}]
+  0C8_053A: ÿ]Ù    |D8 5D F4            | FCOMP DWORD PTR [EBP-12{nt}]
+  0CB_053D: ﬂ‡     |DF E0               | FNSTSW AX
+  0CD_053F: û      |9E                  | SAHF 
+  0CE_0540: r.     |72 12               | JB +18 (0xE2)
+  0D0_0542: ˇu.    |FF 75 08            | PUSH DWORD PTR [EBP+8{b}]
+  0D3_0545: ˇuÏ    |FF 75 EC            | PUSH DWORD PTR [EBP-20{nb}]
+  0D6_0548: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  0DB_054D: ÿe.    |D8 65 10            | FSUB DWORD PTR [EBP+16{t}]
+  0DE_0550: Ÿ]Ë    |D9 5D E8            | FSTP DWORD PTR [EBP-24{h}]
+  0E1_0553: õ      |9B                  | FWAIT 
+// -- Line #37 -- 
+  0E2_0554: ŸE.    |D9 45 10            | FLD DWORD PTR [EBP+16{t}]
+  0E5_0557: ÿ]Ù    |D8 5D F4            | FCOMP DWORD PTR [EBP-12{nt}]
+  0E8_055A: ﬂ‡     |DF E0               | FNSTSW AX
+  0EA_055C: û      |9E                  | SAHF 
+  0EB_055D: s.     |73 15               | JNB +21 (0x102)
+  0ED_055F: ŸE.    |D9 45 08            | FLD DWORD PTR [EBP+8{b}]
+  0F0_0562: ÿ]Ï    |D8 5D EC            | FCOMP DWORD PTR [EBP-20{nb}]
+  0F3_0565: ﬂ‡     |DF E0               | FNSTSW AX
+  0F5_0567: û      |9E                  | SAHF 
+  0F6_0568: w.     |77 0A               | JNBE +10 (0x102)
+  0F8_056A: ŸE.    |D9 45 08            | FLD DWORD PTR [EBP+8{b}]
+  0FB_056D: ÿeÙ    |D8 65 F4            | FSUB DWORD PTR [EBP-12{nt}]
+  0FE_0570: Ÿ]Ë    |D9 5D E8            | FSTP DWORD PTR [EBP-24{h}]
+  101_0573: õ      |9B                  | FWAIT 
+// -- Line #38 -- 
+  102_0574: ŸE.    |D9 45 10            | FLD DWORD PTR [EBP+16{t}]
+  105_0577: ÿ]Ù    |D8 5D F4            | FCOMP DWORD PTR [EBP-12{nt}]
+  108_057A: ﬂ‡     |DF E0               | FNSTSW AX
+  10A_057C: û      |9E                  | SAHF 
+  10B_057D: s.     |73 15               | JNB +21 (0x122)
+  10D_057F: ŸE.    |D9 45 08            | FLD DWORD PTR [EBP+8{b}]
+  110_0582: ÿ]Ï    |D8 5D EC            | FCOMP DWORD PTR [EBP-20{nb}]
+  113_0585: ﬂ‡     |DF E0               | FNSTSW AX
+  115_0587: û      |9E                  | SAHF 
+  116_0588: v.     |76 0A               | JBE +10 (0x122)
+  118_058A: ŸEÏ    |D9 45 EC            | FLD DWORD PTR [EBP-20{nb}]
+  11B_058D: ÿeÙ    |D8 65 F4            | FSUB DWORD PTR [EBP-12{nt}]
+  11E_0590: Ÿ]Ë    |D9 5D E8            | FSTP DWORD PTR [EBP-24{h}]
+  121_0593: õ      |9B                  | FWAIT 
+// -- Line #40 -- 
+  122_0594: ŸE‰    |D9 45 E4            | FLD DWORD PTR [EBP-28{w}]
+  125_0597: ÿMË    |D8 4D E8            | FMUL DWORD PTR [EBP-24{h}]
+  128_059A: Ÿ]¸    |D9 5D FC            | FSTP DWORD PTR [EBP-4{Result}]
+  12B_059D: õ      |9B                  | FWAIT 
+  12C_059E: ŸE¸    |D9 45 FC            | FLD DWORD PTR [EBP-4{Result}]
+// -- Line #41 -- 
+  12F_05A1: ãÂ     |8B E5               | MOV ESP,EBP
+  131_05A3: ]      |5D                  | POP EBP
+  132_05A4: ¬..    |C2 10 00            | RETN $0010
+  135_05A7: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  137_05A9: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  139_05AB: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  13B_05AD: ?      |3F                  | AAS 
+  13C_05AE: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  13E_05B0: Ä      |80                  | ?
+  13F_05B1: ?      |3F                  | AAS 
+end;
+
+function inwind{40,45262B18}{B0:0,Sz:63,VProc:2}
+  (val xl: {T#3}System.Integer{F:B Ofs:0=EAX};
+  val xr: {T#3}System.Integer{F:B Ofs:1=EDX};
+  val ya: {T#3}System.Integer{F:B Ofs:2=ECX};
+  val yb: {T#3}System.Integer{F:B Ofs:4=ESI};
+  val left: {T#3}System.Integer{F:B Ofs:5=EDI};
+  val right: {T#3}System.Integer{F:13 Ofs:16};
+  val top: {T#3}System.Integer{F:13 Ofs:12};
+  val bottom: {T#3}System.Integer{F:13 Ofs:8}): {T#5}System.Boolean
+{LVFlags: 60,0, 14,30,1};
+var
+  local Result: {T#5}System.Boolean{F:B Ofs:0=EAX};
+begin//raw[$63]at $140
+// -- Line #46 -- 
+  00_05B2: U      [55                  | PUSH EBP
+  01_05B3: ãÏ     |8B EC               | MOV EBP,ESP
+  03_05B5: V      |56                  | PUSH ESI
+  04_05B6: W      |57                  | PUSH EDI
+  05_05B7: ã}.    |8B 7D 14            | MOV EDI,DWORD PTR [EBP+20]
+  08_05BA: ãu.    |8B 75 18            | MOV ESI{@yb},DWORD PTR [EBP+24]
+// -- Line #47 -- 
+  0B_05BD: ;E.    |3B 45 10            | CMP EAX{@xl},DWORD PTR [EBP+16{right}]
+  0E_05C0: }.     |7D 0E               | JNL +14 (0x1E)
+  10_05C2: ;¯     |3B F8               | CMP EDI{@left},EAX{@xl}
+  12_05C4: }.     |7D 0A               | JNL +10 (0x1E)
+  14_05C6: ;M.    |3B 4D 0C            | CMP ECX{@ya},DWORD PTR [EBP+12{top}]
+  17_05C9: ~.     |7E 05               | JLE +5 (0x1E)
+  19_05CB: ;M.    |3B 4D 08            | CMP ECX{@ya},DWORD PTR [EBP+8{bottom}]
+  1C_05CE: |9     |7C 39               | JL +57 (0x57)
+  1E_05D0: ;E.    |3B 45 10            | CMP EAX{@xl},DWORD PTR [EBP+16{right}]
+  21_05D3: }.     |7D 0E               | JNL +14 (0x31)
+  23_05D5: ;¯     |3B F8               | CMP EDI{@left},EAX{@xl}
+  25_05D7: }.     |7D 0A               | JNL +10 (0x31)
+  27_05D9: ;u.    |3B 75 0C            | CMP ESI{@yb},DWORD PTR [EBP+12{top}]
+  2A_05DC: ~.     |7E 05               | JLE +5 (0x31)
+  2C_05DE: ;u.    |3B 75 08            | CMP ESI{@yb},DWORD PTR [EBP+8{bottom}]
+  2F_05E1: |&     |7C 26               | JL +38 (0x57)
+  31_05E3: ;U.    |3B 55 10            | CMP EDX{@xr},DWORD PTR [EBP+16{right}]
+  34_05E6: }.     |7D 0E               | JNL +14 (0x44)
+  36_05E8: ;˙     |3B FA               | CMP EDI{@left},EDX{@xr}
+  38_05EA: }.     |7D 0A               | JNL +10 (0x44)
+  3A_05EC: ;M.    |3B 4D 0C            | CMP ECX{@ya},DWORD PTR [EBP+12{top}]
+  3D_05EF: ~.     |7E 05               | JLE +5 (0x44)
+  3F_05F1: ;M.    |3B 4D 08            | CMP ECX{@ya},DWORD PTR [EBP+8{bottom}]
+  42_05F4: |.     |7C 13               | JL +19 (0x57)
+  44_05F6: ;U.    |3B 55 10            | CMP EDX{@xr},DWORD PTR [EBP+16{right}]
+  47_05F9: }.     |7D 12               | JNL +18 (0x5B)
+  49_05FB: ;˙     |3B FA               | CMP EDI{@left},EDX{@xr}
+  4B_05FD: }.     |7D 0E               | JNL +14 (0x5B)
+  4D_05FF: ;u.    |3B 75 0C            | CMP ESI{@yb},DWORD PTR [EBP+12{top}]
+  50_0602: ~.     |7E 09               | JLE +9 (0x5B)
+  52_0604: ;u.    |3B 75 08            | CMP ESI{@yb},DWORD PTR [EBP+8{bottom}]
+  55_0607: }.     |7D 04               | JNL +4 (0x5B)
+// -- Line #50 -- 
+  57_0609: ∞.     |B0 01               | MOV AL,$01
+  59_060B: Î.     |EB 02               | JMP +2 (0x5D)
+// -- Line #52 -- 
+  5B_060D: 3¿     |33 C0               | XOR EAX,EAX
+// -- Line #53 -- 
+  5D_060F: _      |5F                  | POP EDI
+  5E_0610: ^      |5E                  | POP ESI
+  5F_0611: ]      |5D                  | POP EBP
+  60_0612: ¬..    |C2 14 00            | RETN $0014
+end;
+
+procedure limoverlap{0,0}{B0:0,Sz:428,VProc:0}
+  (val i: {T#3}System.Integer{F:33 Ofs:-4};
+  var ll: {T#4}System.Single{F:33 Ofs:-8};
+  var lr: {T#4}System.Single{F:33 Ofs:-12};
+  var la: {T#4}System.Single{F:13 Ofs:12};
+  var lb: {T#4}System.Single{F:13 Ofs:8})
+{LVFlags: 30,20, 8,38,1};
+var
+  local j: {T#3}System.Integer{F:B Ofs:0=EAX};
+  local k: {T#3}System.Integer{F:B Ofs:5=EDI};
+  local thisx: {T#4}System.Single{F:33 Ofs:-16};
+  local thisy: {T#4}System.Single{F:33 Ofs:-20};
+  local dx: {T#4}System.Single{F:33 Ofs:-24};
+  local dy: {T#4}System.Single{F:33 Ofs:-28};
+  local _Dv_: {T#9}{Sz: 4, RTTISz: 0, hAddr: 0}^{T#8}void{Sz: 0, RTTISz: 0, hAddr: 0}{F:B Ofs:3=EBX};
+begin//raw[$428]at $1A3
+// -- Line #62 -- 
+  000_0615: U      [55                  | PUSH EBP
+  001_0616: ãÏ     |8B EC               | MOV EBP,ESP
+  003_0618: Éƒ‡    |83 C4 E0            | ADD ESP,-32
+  006_061B: S      |53                  | PUSH EBX
+  007_061C: V      |56                  | PUSH ESI
+  008_061D: W      |57                  | PUSH EDI
+  009_061E: âMÙ    |89 4D F4            | MOV DWORD PTR [EBP-12{lr}],ECX
+  00C_0621: âU¯    |89 55 F8            | MOV DWORD PTR [EBP-8{ll}],EDX
+  00F_0624: âE¸    |89 45 FC            | MOV DWORD PTR [EBP-4{i}],EAX
+// -- Line #63 -- 
+  012_0627: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  017_062C: ãU¸    |8B 55 FC            | MOV EDX,DWORD PTR [EBP-4{i}]
+  01A_062F: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  01E_0633: ãêÃ... |8B 90 CC 07 00 00   | MOV EDX,DWORD PTR [EAX+1996]
+  024_0639: âU    |89 55 F0            | MOV DWORD PTR [EBP-16{thisx}],EDX
+// -- Line #64 -- 
+  027_063C: ã..... |8B 15(00 00 00 00   | MOV EDX,DWORD PTR [&K3 casPtrs{#$8}]
+  02D_0642: ãM¸    |8B 4D FC            | MOV ECX,DWORD PTR [EBP-4{i}]
+  030_0645: ãÄ–... |8B 80 D0 07 00 00   | MOV EAX,DWORD PTR [EAX+2000]
+  036_064B: âEÏ    |89 45 EC            | MOV DWORD PTR [EBP-20{thisy}],EAX
+// -- Line #65 -- 
+  039_064E: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 ncas{#$9}]
+  03E_0653: ã.     |8B 00               | MOV EAX,DWORD PTR [EAX]
+  040_0655: Ö¿     |85 C0               | TEST EAX,EAX
+  042_0657: .éæ... |0F 8E BE 03 00 00   | JLE +958 (0x406)
+  048_065D: âE‡    |89 45 E0            | MOV DWORD PTR [EBP-32],EAX
+  04B_0660: ã5.... |8B 35(00 00 00 00   | MOV ESI,DWORD PTR [&K3 deck{#$A}]
+// -- Line #67 -- 
+  051_0666: ã>     |8B 3E               | MOV EDI{@k},DWORD PTR [ESI]
+// -- Line #68 -- 
+  053_0668: ;}¸    |3B 7D FC            | CMP EDI{@k},DWORD PTR [EBP-4{i}]
+  056_066B: .Ñû... |0F 84 9E 03 00 00   | JZ +926 (0x3FA)
+  05C_0671: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  061_0676: ã\∏¸   |8B 5C B8 FC         | MOV EBX{@_Dv_},DWORD PTR [EAX+4*EDI-4]
+// -- Line #72 -- 
+  065_067A: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  068_067D: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  06A_067F: ÿõ¸... |D8 9B FC 07 00 00   | FCOMP DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  070_0685: ﬂ‡     |DF E0               | FNSTSW AX
+  072_0687: û      |9E                  | SAHF 
+  073_0688: .ÉÅ... |0F 83 81 03 00 00   | JNB +897 (0x3FA)
+  079_068E: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  07C_0691: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  07E_0693: ÿõ.... |D8 9B 00 08 00 00   | FCOMP DWORD PTR [EBX+2048{@_Dv_^.?2048}]
+  084_0699: ﬂ‡     |DF E0               | FNSTSW AX
+  086_069B: û      |9E                  | SAHF 
+  087_069C: .Ém... |0F 83 6D 03 00 00   | JNB +877 (0x3FA)
+  08D_06A2: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  090_06A5: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  092_06A7: ÿõÙ... |D8 9B F4 07 00 00   | FCOMP DWORD PTR [EBX+2036{@_Dv_^.?2036}]
+  098_06AD: ﬂ‡     |DF E0               | FNSTSW AX
+  09A_06AF: û      |9E                  | SAHF 
+  09B_06B0: .ÜY... |0F 86 59 03 00 00   | JBE +857 (0x3FA)
+  0A1_06B6: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  0A4_06B9: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  0A6_06BB: ÿõ¯... |D8 9B F8 07 00 00   | FCOMP DWORD PTR [EBX+2040{@_Dv_^.?2040}]
+  0AC_06C1: ﬂ‡     |DF E0               | FNSTSW AX
+  0AE_06C3: û      |9E                  | SAHF 
+  0AF_06C4: .ÜE... |0F 86 45 03 00 00   | JBE +837 (0x3FA)
+// -- Line #75 -- 
+  0B5_06CA: ŸE    |D9 45 F0            | FLD DWORD PTR [EBP-16{thisx}]
+  0B8_06CD: ÿ£Ã... |D8 A3 CC 07 00 00   | FSUB DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  0BE_06D3: Ÿ·     |D9 E1               | FABS 
+  0C0_06D5: Ÿ]Ë    |D9 5D E8            | FSTP DWORD PTR [EBP-24{dx}]
+  0C3_06D8: õ      |9B                  | FWAIT 
+  0C4_06D9: ŸEÏ    |D9 45 EC            | FLD DWORD PTR [EBP-20{thisy}]
+  0C7_06DC: ÿ£–... |D8 A3 D0 07 00 00   | FSUB DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  0CD_06E2: Ÿ·     |D9 E1               | FABS 
+  0CF_06E4: Ÿ]‰    |D9 5D E4            | FSTP DWORD PTR [EBP-28{dy}]
+  0D2_06E7: õ      |9B                  | FWAIT 
+// -- Line #76 -- 
+  0D3_06E8: ŸE    |D9 45 F0            | FLD DWORD PTR [EBP-16{thisx}]
+  0D6_06EB: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  0DC_06F1: ﬂ‡     |DF E0               | FNSTSW AX
+  0DE_06F3: û      |9E                  | SAHF 
+  0DF_06F4: .Üµ... |0F 86 B5 00 00 00   | JBE +181 (0x19A)
+  0E5_06FA: ŸEË    |D9 45 E8            | FLD DWORD PTR [EBP-24{dx}]
+  0E8_06FD: ÿ]‰    |D8 5D E4            | FCOMP DWORD PTR [EBP-28{dy}]
+  0EB_0700: ﬂ‡     |DF E0               | FNSTSW AX
+  0ED_0702: û      |9E                  | SAHF 
+  0EE_0703: .Ç¶... |0F 82 A6 00 00 00   | JB +166 (0x19A)
+// -- Line #79 -- 
+  0F4_0709: ãE¸    |8B 45 FC            | MOV EAX,DWORD PTR [EBP-4{i}]
+  0F7_070C: +«     |2B C7               | SUB EAX,EDI{@k}
+  0F9_070E: H      |48                  | DEC EAX
+  0FA_070F: u.     |75 18               | JNZ +24 (0x114)
+  0FC_0711: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  0FF_0714: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  101_0716: ˇ≥¸... |FF B3 FC 07 00 00   | PUSH DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  107_071C: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  10C_0721: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  10F_0724: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  111_0726: õ      |9B                  | FWAIT 
+  112_0727: Î#     |EB 23               | JMP +35 (0x137)
+// -- Line #80 -- 
+  114_0729: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  117_072C: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  119_072E: €-.... |DB 2D(10 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ¸?' {limoverlap{#$36}+1040}]
+  11F_0734: ÿ´¸... |D8 AB FC 07 00 00   | FSUBR DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  125_073A: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  128_073D: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  12B_0740: õ      |9B                  | FWAIT 
+  12C_0741: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  131_0746: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  134_0749: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  136_074B: õ      |9B                  | FWAIT 
+// -- Line #81 -- 
+  137_074C: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  13A_074F: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  13C_0751: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  142_0757: ﬂ‡     |DF E0               | FNSTSW AX
+  144_0759: û      |9E                  | SAHF 
+  145_075A: w3     |77 33               | JNBE +51 (0x17A)
+  147_075C: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  14A_075F: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  14C_0761: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  152_0767: ﬂ‡     |DF E0               | FNSTSW AX
+  154_0769: û      |9E                  | SAHF 
+  155_076A: r#     |72 23               | JB +35 (0x17A)
+  157_076C: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  15A_076F: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  15C_0771: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  162_0777: ÿÉÃ... |D8 83 CC 07 00 00   | FADD DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  168_077D: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  16B_0780: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  16E_0783: õ      |9B                  | FWAIT 
+  16F_0784: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  174_0789: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  177_078C: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  179_078E: õ      |9B                  | FWAIT 
+// -- Line #82 -- 
+  17A_078F: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  17D_0792: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  17F_0794: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  185_079A: ÿm    |D8 6D F0            | FSUBR DWORD PTR [EBP-16{thisx}]
+  188_079D: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  18B_07A0: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  18E_07A3: õ      |9B                  | FWAIT 
+  18F_07A4: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  194_07A9: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  197_07AC: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  199_07AE: õ      |9B                  | FWAIT 
+// -- Line #84 -- 
+  19A_07AF: ŸEÏ    |D9 45 EC            | FLD DWORD PTR [EBP-20{thisy}]
+  19D_07B2: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  1A3_07B8: ﬂ‡     |DF E0               | FNSTSW AX
+  1A5_07BA: û      |9E                  | SAHF 
+  1A6_07BB: .Üº... |0F 86 BC 00 00 00   | JBE +188 (0x268)
+  1AC_07C1: ŸE‰    |D9 45 E4            | FLD DWORD PTR [EBP-28{dy}]
+  1AF_07C4: ÿ]Ë    |D8 5D E8            | FCOMP DWORD PTR [EBP-24{dx}]
+  1B2_07C7: ﬂ‡     |DF E0               | FNSTSW AX
+  1B4_07C9: û      |9E                  | SAHF 
+  1B5_07CA: .Ç≠... |0F 82 AD 00 00 00   | JB +173 (0x268)
+// -- Line #87 -- 
+  1BB_07D0: ãE¸    |8B 45 FC            | MOV EAX,DWORD PTR [EBP-4{i}]
+  1BE_07D3: +«     |2B C7               | SUB EAX,EDI{@k}
+  1C0_07D5: ã..... |8B 15(00 00 00 00   | MOV EDX,DWORD PTR [&K3 plantsperrow{#$C}]
+  1C6_07DB: ;.     |3B 02               | CMP EAX,DWORD PTR [EDX]
+  1C8_07DD: u.     |75 18               | JNZ +24 (0x1E2)
+  1CA_07DF: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  1CD_07E2: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  1CF_07E4: ˇ≥.... |FF B3 00 08 00 00   | PUSH DWORD PTR [EBX+2048{@_Dv_^.?2048}]
+  1D5_07EA: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  1DA_07EF: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  1DD_07F2: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  1DF_07F4: õ      |9B                  | FWAIT 
+  1E0_07F5: Î#     |EB 23               | JMP +35 (0x205)
+// -- Line #88 -- 
+  1E2_07F7: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  1E5_07FA: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  1E7_07FC: €-.... |DB 2D(10 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ¸?' {limoverlap{#$36}+1040}]
+  1ED_0802: ÿ´.... |D8 AB 00 08 00 00   | FSUBR DWORD PTR [EBX+2048{@_Dv_^.?2048}]
+  1F3_0808: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  1F6_080B: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  1F9_080E: õ      |9B                  | FWAIT 
+  1FA_080F: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  1FF_0814: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  202_0817: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  204_0819: õ      |9B                  | FWAIT 
+// -- Line #89 -- 
+  205_081A: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  208_081D: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  20A_081F: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  210_0825: ﬂ‡     |DF E0               | FNSTSW AX
+  212_0827: û      |9E                  | SAHF 
+  213_0828: w3     |77 33               | JNBE +51 (0x248)
+  215_082A: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  218_082D: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  21A_082F: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  220_0835: ﬂ‡     |DF E0               | FNSTSW AX
+  222_0837: û      |9E                  | SAHF 
+  223_0838: r#     |72 23               | JB +35 (0x248)
+  225_083A: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  228_083D: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  22A_083F: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  230_0845: ÿÉ–... |D8 83 D0 07 00 00   | FADD DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  236_084B: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  239_084E: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  23C_0851: õ      |9B                  | FWAIT 
+  23D_0852: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  242_0857: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  245_085A: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  247_085C: õ      |9B                  | FWAIT 
+// -- Line #90 -- 
+  248_085D: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  24B_0860: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  24D_0862: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  253_0868: ÿmÏ    |D8 6D EC            | FSUBR DWORD PTR [EBP-20{thisy}]
+  256_086B: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  259_086E: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  25C_0871: õ      |9B                  | FWAIT 
+  25D_0872: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  262_0877: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  265_087A: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  267_087C: õ      |9B                  | FWAIT 
+// -- Line #92 -- 
+  268_087D: ŸE    |D9 45 F0            | FLD DWORD PTR [EBP-16{thisx}]
+  26B_0880: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  271_0886: ﬂ‡     |DF E0               | FNSTSW AX
+  273_0888: û      |9E                  | SAHF 
+  274_0889: .Éµ... |0F 83 B5 00 00 00   | JNB +181 (0x32F)
+  27A_088F: ŸEË    |D9 45 E8            | FLD DWORD PTR [EBP-24{dx}]
+  27D_0892: ÿ]‰    |D8 5D E4            | FCOMP DWORD PTR [EBP-28{dy}]
+  280_0895: ﬂ‡     |DF E0               | FNSTSW AX
+  282_0897: û      |9E                  | SAHF 
+  283_0898: .Ç¶... |0F 82 A6 00 00 00   | JB +166 (0x32F)
+// -- Line #95 -- 
+  289_089E: ã«     |8B C7               | MOV EAX,EDI{@k}
+  28B_08A0: +E¸    |2B 45 FC            | SUB EAX,DWORD PTR [EBP-4{i}]
+  28E_08A3: H      |48                  | DEC EAX
+  28F_08A4: u.     |75 18               | JNZ +24 (0x2A9)
+  291_08A6: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  294_08A9: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  296_08AB: ˇ≥Ù... |FF B3 F4 07 00 00   | PUSH DWORD PTR [EBX+2036{@_Dv_^.?2036}]
+  29C_08B1: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  2A1_08B6: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  2A4_08B9: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  2A6_08BB: õ      |9B                  | FWAIT 
+  2A7_08BC: Î#     |EB 23               | JMP +35 (0x2CC)
+// -- Line #96 -- 
+  2A9_08BE: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  2AC_08C1: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  2AE_08C3: €-.... |DB 2D(10 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ¸?' {limoverlap{#$36}+1040}]
+  2B4_08C9: ÿÉÙ... |D8 83 F4 07 00 00   | FADD DWORD PTR [EBX+2036{@_Dv_^.?2036}]
+  2BA_08CF: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  2BD_08D2: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  2C0_08D5: õ      |9B                  | FWAIT 
+  2C1_08D6: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  2C6_08DB: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  2C9_08DE: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  2CB_08E0: õ      |9B                  | FWAIT 
+// -- Line #97 -- 
+  2CC_08E1: ãE.    |8B 45 0C            | MOV EAX,DWORD PTR [EBP+12{la}]
+  2CF_08E4: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  2D1_08E6: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  2D7_08EC: ﬂ‡     |DF E0               | FNSTSW AX
+  2D9_08EE: û      |9E                  | SAHF 
+  2DA_08EF: w3     |77 33               | JNBE +51 (0x30F)
+  2DC_08F1: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  2DF_08F4: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  2E1_08F6: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  2E7_08FC: ﬂ‡     |DF E0               | FNSTSW AX
+  2E9_08FE: û      |9E                  | SAHF 
+  2EA_08FF: r#     |72 23               | JB +35 (0x30F)
+  2EC_0901: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  2EF_0904: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  2F1_0906: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  2F7_090C: ÿ´Ã... |D8 AB CC 07 00 00   | FSUBR DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  2FD_0912: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  300_0915: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  303_0918: õ      |9B                  | FWAIT 
+  304_0919: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  309_091E: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  30C_0921: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  30E_0923: õ      |9B                  | FWAIT 
+// -- Line #98 -- 
+  30F_0924: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  312_0927: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  314_0929: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  31A_092F: ÿE    |D8 45 F0            | FADD DWORD PTR [EBP-16{thisx}]
+  31D_0932: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  320_0935: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  323_0938: õ      |9B                  | FWAIT 
+  324_0939: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  329_093E: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  32C_0941: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  32E_0943: õ      |9B                  | FWAIT 
+// -- Line #100 -- 
+  32F_0944: ŸEÏ    |D9 45 EC            | FLD DWORD PTR [EBP-20{thisy}]
+  332_0947: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  338_094D: ﬂ‡     |DF E0               | FNSTSW AX
+  33A_094F: û      |9E                  | SAHF 
+  33B_0950: .Éπ... |0F 83 B9 00 00 00   | JNB +185 (0x3FA)
+  341_0956: ŸE‰    |D9 45 E4            | FLD DWORD PTR [EBP-28{dy}]
+  344_0959: ÿ]Ë    |D8 5D E8            | FCOMP DWORD PTR [EBP-24{dx}]
+  347_095C: ﬂ‡     |DF E0               | FNSTSW AX
+  349_095E: û      |9E                  | SAHF 
+  34A_095F: .Ç™... |0F 82 AA 00 00 00   | JB +170 (0x3FA)
+// -- Line #103 -- 
+  350_0965: +}¸    |2B 7D FC            | SUB EDI{@k},DWORD PTR [EBP-4{i}]
+  353_0968: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 plantsperrow{#$C}]
+  358_096D: ;8     |3B 38               | CMP EDI{@k},DWORD PTR [EAX]
+  35A_096F: u.     |75 18               | JNZ +24 (0x374)
+  35C_0971: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  35F_0974: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  361_0976: ˇ≥¯... |FF B3 F8 07 00 00   | PUSH DWORD PTR [EBX+2040{@_Dv_^.?2040}]
+  367_097C: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  36C_0981: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  36F_0984: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  371_0986: õ      |9B                  | FWAIT 
+  372_0987: Î#     |EB 23               | JMP +35 (0x397)
+// -- Line #104 -- 
+  374_0989: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  377_098C: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  379_098E: €-.... |DB 2D(10 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ¸?' {limoverlap{#$36}+1040}]
+  37F_0994: ÿÉ¯... |D8 83 F8 07 00 00   | FADD DWORD PTR [EBX+2040{@_Dv_^.?2040}]
+  385_099A: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  388_099D: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  38B_09A0: õ      |9B                  | FWAIT 
+  38C_09A1: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  391_09A6: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  394_09A9: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  396_09AB: õ      |9B                  | FWAIT 
+// -- Line #105 -- 
+  397_09AC: ãE¯    |8B 45 F8            | MOV EAX,DWORD PTR [EBP-8{ll}]
+  39A_09AF: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  39C_09B1: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  3A2_09B7: ﬂ‡     |DF E0               | FNSTSW AX
+  3A4_09B9: û      |9E                  | SAHF 
+  3A5_09BA: w3     |77 33               | JNBE +51 (0x3DA)
+  3A7_09BC: ãEÙ    |8B 45 F4            | MOV EAX,DWORD PTR [EBP-12{lr}]
+  3AA_09BF: Ÿ.     |D9 00               | FLD DWORD PTR [EAX]
+  3AC_09C1: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  3B2_09C7: ﬂ‡     |DF E0               | FNSTSW AX
+  3B4_09C9: û      |9E                  | SAHF 
+  3B5_09CA: r#     |72 23               | JB +35 (0x3DA)
+  3B7_09CC: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  3BA_09CF: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  3BC_09D1: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  3C2_09D7: ÿ´–... |D8 AB D0 07 00 00   | FSUBR DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  3C8_09DD: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  3CB_09E0: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  3CE_09E3: õ      |9B                  | FWAIT 
+  3CF_09E4: Ë....  |E8(00 00 00 00      | CALL &K2 min{#$2}
+  3D4_09E9: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  3D7_09EC: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  3D9_09EE: õ      |9B                  | FWAIT 
+// -- Line #106 -- 
+  3DA_09EF: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  3DD_09F2: ˇ0     |FF 30               | PUSH DWORD PTR [EAX]
+  3DF_09F4: €-.... |DB 2D(1C 04 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˚?' {limoverlap{#$36}+1052}]
+  3E5_09FA: ÿEÏ    |D8 45 EC            | FADD DWORD PTR [EBP-20{thisy}]
+  3E8_09FD: Éƒ¸    |83 C4 FC            | ADD ESP,-4
+  3EB_0A00: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP]
+  3EE_0A03: õ      |9B                  | FWAIT 
+  3EF_0A04: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  3F4_0A09: ãE.    |8B 45 08            | MOV EAX,DWORD PTR [EBP+8{lb}]
+  3F7_0A0C: Ÿ.     |D9 18               | FSTP DWORD PTR [EAX]
+  3F9_0A0E: õ      |9B                  | FWAIT 
+// -- Line #110 -- 
+  3FA_0A0F: É∆.    |83 C6 04            | ADD ESI,4
+// -- Line #65 -- 
+  3FD_0A12: ˇM‡    |FF 4D E0            | DEC DWORD PTR [EBP-32]
+  400_0A15: .ÖK¸ˇˇ |0F 85 4B FC FF FF   | JNZ -949 (0x51)
+// -- Line #111 -- 
+  406_0A1B: _      |5F                  | POP EDI
+  407_0A1C: ^      |5E                  | POP ESI
+  408_0A1D: [      |5B                  | POP EBX
+  409_0A1E: ãÂ     |8B E5               | MOV ESP,EBP
+  40B_0A20: ]      |5D                  | POP EBP
+  40C_0A21: ¬..    |C2 08 00            | RETN $0008
+  40F_0A24: .Õ     |00 CD               | ADD CH,CL
+  411_0A26: Ã      |CC                  | INT $1
+  412_0A27: Ã      |CC                  | INT $1
+  413_0A28: Ã      |CC                  | INT $1
+  414_0A29: Ã      |CC                  | INT $1
+  415_0A2A: Ã      |CC                  | INT $1
+  416_0A2B: Ã      |CC                  | INT $1
+  417_0A2C: Ã      |CC                  | INT $1
+  418_0A2D: ¸      |FC                  | CLD 
+  419_0A2E: ?      |3F                  | AAS 
+  41A_0A2F: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  41C_0A31: ÕÃ     |CD CC               | INT $CC
+  41E_0A33: Ã      |CC                  | INT $1
+  41F_0A34: Ã      |CC                  | INT $1
+  420_0A35: Ã      |CC                  | INT $1
+  421_0A36: Ã      |CC                  | INT $1
+  422_0A37: Ã      |CC                  | INT $1
+  423_0A38: Ã      |CC                  | INT $1
+  424_0A39: ˚      |FB                  | STI 
+  425_0A3A: ?      |3F                  | AAS 
+  426_0A3B: ..     |00 00               | ADD BYTE PTR [EAX],AL
+end;
+
+procedure findscatlims{0,0}{B0:0,Sz:88,VProc:0}
+  (val i: {T#3}System.Integer{F:B Ofs:0=EAX};
+  var ll: {T#4}System.Single{F:B Ofs:1=EDX};
+  var lr: {T#4}System.Single{F:B Ofs:2=ECX};
+  var la: {T#4}System.Single{F:B Ofs:4=ESI};
+  var lb: {T#4}System.Single{F:13 Ofs:8})
+{LVFlags: 60,0, 8,38,1};
+var
+  local _Dv_: {T#9}{Sz: 4, RTTISz: 0, hAddr: 0}^{T#8}void{Sz: 0, RTTISz: 0, hAddr: 0}{F:B Ofs:3=EBX};
+begin//raw[$88]at $5CB
+// -- Line #126 -- 
+  00_0A3D: U      [55                  | PUSH EBP
+  01_0A3E: ãÏ     |8B EC               | MOV EBP,ESP
+  03_0A40: S      |53                  | PUSH EBX
+  04_0A41: V      |56                  | PUSH ESI
+  05_0A42: W      |57                  | PUSH EDI
+  06_0A43: ãu.    |8B 75 0C            | MOV ESI{la},DWORD PTR [EBP+12]
+// -- Line #128 -- 
+  09_0A46: ã..... |8B 1D(00 00 00 00   | MOV EBX,DWORD PTR [&K3 casPtrs{#$8}]
+  0F_0A4C: ã\É¸   |8B 5C 83 FC         | MOV EBX{@_Dv_},DWORD PTR [EBX+4*EAX-4]
+// -- Line #142 -- 
+  13_0A50: ã=.... |8B 3D(00 00 00 00   | MOV EDI,DWORD PTR [&K3 maxwidth{#$D}]
+  19_0A56: Ÿ.     |D9 07               | FLD DWORD PTR [EDI]
+  1B_0A58: ÿ.Ñ... |D8 0D(84 00 00 00   | FMUL DWORD PTR [&K1 '' {findscatlims{#$43}+132}]
+  21_0A5E: ÿ´Ã... |D8 AB CC 07 00 00   | FSUBR DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  27_0A64: Ÿ.     |D9 1A               | FSTP DWORD PTR [EDX{ll}]
+  29_0A66: õ      |9B                  | FWAIT 
+// -- Line #143 -- 
+  2A_0A67: ã=.... |8B 3D(00 00 00 00   | MOV EDI,DWORD PTR [&K3 maxwidth{#$D}]
+  30_0A6D: Ÿ.     |D9 07               | FLD DWORD PTR [EDI]
+  32_0A6F: ÿ.Ñ... |D8 0D(84 00 00 00   | FMUL DWORD PTR [&K1 '' {findscatlims{#$43}+132}]
+  38_0A75: ÿÉÃ... |D8 83 CC 07 00 00   | FADD DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  3E_0A7B: Ÿ.     |D9 19               | FSTP DWORD PTR [ECX{lr}]
+  40_0A7D: õ      |9B                  | FWAIT 
+// -- Line #144 -- 
+  41_0A7E: ã=.... |8B 3D(00 00 00 00   | MOV EDI,DWORD PTR [&K3 maxwidth{#$D}]
+  47_0A84: Ÿ.     |D9 07               | FLD DWORD PTR [EDI]
+  49_0A86: ÿ.Ñ... |D8 0D(84 00 00 00   | FMUL DWORD PTR [&K1 '' {findscatlims{#$43}+132}]
+  4F_0A8C: ÿ´–... |D8 AB D0 07 00 00   | FSUBR DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  55_0A92: Ÿ.     |D9 1E               | FSTP DWORD PTR [ESI{la}]
+  57_0A94: õ      |9B                  | FWAIT 
+// -- Line #145 -- 
+  58_0A95: ã=.... |8B 3D(00 00 00 00   | MOV EDI,DWORD PTR [&K3 maxwidth{#$D}]
+  5E_0A9B: Ÿ.     |D9 07               | FLD DWORD PTR [EDI]
+  60_0A9D: ÿ.Ñ... |D8 0D(84 00 00 00   | FMUL DWORD PTR [&K1 '' {findscatlims{#$43}+132}]
+  66_0AA3: ÿÉ–... |D8 83 D0 07 00 00   | FADD DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  6C_0AA9: ã].    |8B 5D 08            | MOV EBX{@_Dv_},DWORD PTR [EBP+8{lb}]
+  6F_0AAC: Ÿ.     |D9 1B               | FSTP DWORD PTR [EBX{@_Dv_}]
+  71_0AAE: õ      |9B                  | FWAIT 
+// -- Line #148 -- 
+  72_0AAF: V      |56                  | PUSH ESI{la}
+  73_0AB0: ã].    |8B 5D 08            | MOV EBX,DWORD PTR [EBP+8{lb}]
+  76_0AB3: S      |53                  | PUSH EBX
+  77_0AB4: Ë....  |E8(00 00 00 00      | CALL &K2 limoverlap{#$36}
+// -- Line #287 -- 
+  7C_0AB9: _      |5F                  | POP EDI
+  7D_0ABA: ^      |5E                  | POP ESI
+  7E_0ABB: [      |5B                  | POP EBX
+  7F_0ABC: ]      |5D                  | POP EBP
+  80_0ABD: ¬..    |C2 08 00            | RETN $0008
+  83_0AC0: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  85_0AC2: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  87_0AC4: ?      |3F                  | AAS 
+end;
+
+procedure setsides{40,51F89FF7}{B0:0,Sz:6FC,VProc:8}
+{LVFlags: 30,1F0, 0,78,0};
+var
+  local dist: {T#4}System.Single{F:33 Ofs:0};
+  local maxmass: {T#4}System.Single{F:33 Ofs:4};
+  local alpha: {T#4}System.Single{F:33 Ofs:8};
+  local availarea: {T#4}System.Single{F:33 Ofs:12};
+  local currentarea: {T#4}System.Single{F:33 Ofs:16};
+  local demarea: {T#4}System.Single{F:33 Ofs:20};
+  local suparea: {T#4}System.Single{F:33 Ofs:24};
+  local newarea: {T#4}System.Single{F:33 Ofs:28};
+  local newside: {T#4}System.Single{F:33 Ofs:32};
+  local leafarea: {T#4}System.Single{F:33 Ofs:36};
+  local newl: {T#4}System.Single{F:33 Ofs:40};
+  local newr: {T#4}System.Single{F:33 Ofs:44};
+  local newa: {T#4}System.Single{F:33 Ofs:48};
+  local newb: {T#4}System.Single{F:33 Ofs:52};
+  local limitl: {T#4}System.Single{F:33 Ofs:56};
+  local limita: {T#4}System.Single{F:33 Ofs:60};
+  local limitr: {T#4}System.Single{F:33 Ofs:64};
+  local limitb: {T#4}System.Single{F:33 Ofs:68};
+  local neww: {T#4}System.Single{F:33 Ofs:72};
+  local newh: {T#4}System.Single{F:33 Ofs:76};
+  local hwratio: {T#4}System.Single{F:33 Ofs:80};
+  local h: {T#4}System.Single{F:33 Ofs:84};
+  local w: {T#4}System.Single{F:33 Ofs:88};
+  local dek: {T#1}modutils.i100{F:33 Ofs:92};
+  local i: {T#6}System.Word{F:B Ofs:2=ECX};
+  local k: {T#6}System.Word{F:B Ofs:0=EAX};
+  local _Dv_: {T#9}{Sz: 4, RTTISz: 0, hAddr: 0}^{T#8}void{Sz: 0, RTTISz: 0, hAddr: 0}{F:B Ofs:3=EBX};
+begin//raw[$6FC]at $653
+// -- Line #303 -- 
+  000_0AC5: S      [53                  | PUSH EBX
+  001_0AC6: V      |56                  | PUSH ESI
+  002_0AC7: W      |57                  | PUSH EDI
+  003_0AC8: U      |55                  | PUSH EBP{dist}
+  004_0AC9: Åƒ.˛ˇˇ |81 C4 10 FE FF FF   | ADD ESP{dist},$FFFFFE10
+// -- Line #315 -- 
+  00A_0ACF: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 scattered{#$E}]
+  00F_0AD4: Ä8.    |80 38 00            | CMP BYTE PTR [EAX],$00
+  012_0AD7: u8     |75 38               | JNZ +56 (0x4C)
+// -- Line #317 -- 
+  014_0AD9: ã..... |8B 15(00 00 00 00   | MOV EDX,DWORD PTR [&K3 ncas{#$9}]
+  01A_0ADF: ã.     |8B 12               | MOV EDX,DWORD PTR [EDX]
+  01C_0AE1: çD$\   |8D 44 24 5C         | LEA EAX,[ESP+92{dek}]
+  020_0AE5: Ë....  |E8(00 00 00 00      | CALL &K2 shufl{#$5}
+// -- Line #318 -- 
+  025_0AEA: ã=.... |8B 3D(00 00 00 00   | MOV EDI,DWORD PTR [&K3 ncas{#$9}]
+  02B_0AF0: fã?    |66 8B 3F            | MOV DI,WORD PTR [EDI]
+  02E_0AF3: fÖˇ    |66 85 FF            | TEST DI,DI
+  031_0AF6: v.     |76 19               | JBE +25 (0x4C)
+  033_0AF8: çD$\   |8D 44 24 5C         | LEA EAX,[ESP+92{dek}]
+  037_0AFC: ã5.... |8B 35(00 00 00 00   | MOV ESI,DWORD PTR [&K3 deck{#$A}]
+  03D_0B02: ã.     |8B 10               | MOV EDX,DWORD PTR [EAX]
+  03F_0B04: â.     |89 16               | MOV DWORD PTR [ESI],EDX
+  041_0B06: É∆.    |83 C6 04            | ADD ESI,4
+  044_0B09: É¿.    |83 C0 04            | ADD EAX,4
+  047_0B0C: fˇœ    |66 FF CF            | DEC DI
+  04A_0B0F: uÒ     |75 F1               | JNZ -15 (0x3D)
+// -- Line #321 -- 
+  04C_0B11: ã=.... |8B 3D(00 00 00 00   | MOV EDI,DWORD PTR [&K3 ncas{#$9}]
+  052_0B17: fã?    |66 8B 3F            | MOV DI,WORD PTR [EDI]
+  055_0B1A: fÖˇ    |66 85 FF            | TEST DI,DI
+  058_0B1D: .Üf... |0F 86 66 06 00 00   | JBE +1638 (0x6C4)
+  05E_0B23: ã5.... |8B 35(00 00 00 00   | MOV ESI,DWORD PTR [&K3 deck{#$A}]
+// -- Line #323 -- 
+  064_0B29: fã.    |66 8B 0E            | MOV CX{@i},WORD PTR [ESI]
+// -- Line #324 -- 
+  067_0B2C: .∑È    |0F B7 E9            | MOVZX EBP{dist},CX{@i}
+  06A_0B2F: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  06F_0B34: ã\®¸   |8B 5C A8 FC         | MOV EBX,DWORD PTR [EAX+4*EBP-4]
+  073_0B38: ŸÉl... |D9 83 6C 04 00 00   | FLD DWORD PTR [EBX+1132]
+  079_0B3E: ÿ.–... |D8 1D(D0 06 00 00   | FCOMP DWORD PTR [&K1 '' {setsides{#$4A}+1744}]
+  07F_0B44: ﬂ‡     |DF E0               | FNSTSW AX
+  081_0B46: û      |9E                  | SAHF 
+  082_0B47: .Ü0... |0F 86 30 06 00 00   | JBE +1584 (0x6B8)
+// -- Line #326 -- 
+  088_0B4D: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 scattered{#$E}]
+  08D_0B52: Ä8.    |80 38 00            | CMP BYTE PTR [EAX],$00
+  090_0B55: t.     |74 1E               | JZ +30 (0xB0)
+  092_0B57: çD$<   |8D 44 24 3C         | LEA EAX,[ESP+60{limita}]
+  096_0B5B: P      |50                  | PUSH EAX
+  097_0B5C: çD$H   |8D 44 24 48         | LEA EAX,[ESP+72{neww}]
+  09B_0B60: P      |50                  | PUSH EAX
+  09C_0B61: çT$@   |8D 54 24 40         | LEA EDX,[ESP+64{limitr}]
+  0A0_0B65: U      |55                  | PUSH EBP{dist}
+  0A1_0B66: çL$L   |8D 4C 24 4C         | LEA ECX{@i},[ESP+76{newh}]
+  0A5_0B6A: X      |58                  | POP EAX
+  0A6_0B6B: Ë....  |E8(00 00 00 00      | CALL &K2 findscatlims{#$43}
+  0AB_0B70: È....  |E9 04 02 00 00      | JMP +516 (0x2B4)
+// -- Line #332 -- 
+  0B0_0B75: ;´‰... |3B AB E4 07 00 00   | CMP EBP{dist},DWORD PTR [EBX+2020{@_Dv_^.?2020}]
+  0B6_0B7B: ~.     |7E 1B               | JLE +27 (0xD3)
+  0B8_0B7D: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  0BD_0B82: ãì‰... |8B 93 E4 07 00 00   | MOV EDX,DWORD PTR [EBX+2020{@_Dv_^.?2020}]
+  0C3_0B88: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  0C7_0B8C: ãÄ¸... |8B 80 FC 07 00 00   | MOV EAX,DWORD PTR [EAX+2044]
+  0CD_0B92: âD$8   |89 44 24 38         | MOV DWORD PTR [ESP+56{limitl}],EAX
+  0D1_0B96: Î8     |EB 38               | JMP +56 (0x10B)
+// -- Line #333 -- 
+  0D3_0B98: ãÉ‰... |8B 83 E4 07 00 00   | MOV EAX,DWORD PTR [EBX+2020{@_Dv_^.?2020}]
+  0D9_0B9E: +≈     |2B C5               | SUB EAX,EBP{dist}
+  0DB_0BA0: @      |40                  | INC EAX
+  0DC_0BA1: âÑ$Ï...|89 84 24 EC 01 00 00| MOV DWORD PTR [ESP+492],EAX
+  0E3_0BA8: €Ñ$Ï...|DB 84 24 EC 01 00 00| FILD DWORD PTR [ESP+492]
+  0EA_0BAF: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 plantspacing{#$F}]
+  0EF_0BB4: ÿ.     |D8 08               | FMUL DWORD PTR [EAX]
+  0F1_0BB6: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  0F6_0BBB: ãì‰... |8B 93 E4 07 00 00   | MOV EDX,DWORD PTR [EBX+2020{@_Dv_^.?2020}]
+  0FC_0BC1: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  100_0BC5: ÿ®¸... |D8 A8 FC 07 00 00   | FSUBR DWORD PTR [EAX+2044]
+  106_0BCB: Ÿ\$8   |D9 5C 24 38         | FSTP DWORD PTR [ESP+56{limitl}]
+  10A_0BCF: õ      |9B                  | FWAIT 
+// -- Line #335 -- 
+  10B_0BD0: ŸD$8   |D9 44 24 38         | FLD DWORD PTR [ESP+56{limitl}]
+  10F_0BD4: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  115_0BDA: ﬂ‡     |DF E0               | FNSTSW AX
+  117_0BDC: û      |9E                  | SAHF 
+  118_0BDD: r.     |72 11               | JB +17 (0x12B)
+  11A_0BDF: €-‘... |DB 2D(D4 06 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˙?' {setsides{#$4A}+1748}]
+  120_0BE5: ÿ´Ã... |D8 AB CC 07 00 00   | FSUBR DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  126_0BEB: Ÿ\$8   |D9 5C 24 38         | FSTP DWORD PTR [ESP+56{limitl}]
+  12A_0BEF: õ      |9B                  | FWAIT 
+// -- Line #338 -- 
+  12B_0BF0: ;´Ï... |3B AB EC 07 00 00   | CMP EBP{dist},DWORD PTR [EBX+2028{@_Dv_^.?2028}]
+  131_0BF6: }.     |7D 1B               | JNL +27 (0x14E)
+  133_0BF8: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  138_0BFD: ãìÏ... |8B 93 EC 07 00 00   | MOV EDX,DWORD PTR [EBX+2028{@_Dv_^.?2028}]
+  13E_0C03: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  142_0C07: ãÄÙ... |8B 80 F4 07 00 00   | MOV EAX,DWORD PTR [EAX+2036]
+  148_0C0D: âD$@   |89 44 24 40         | MOV DWORD PTR [ESP+64{limitr}],EAX
+  14C_0C11: Î8     |EB 38               | JMP +56 (0x186)
+// -- Line #339 -- 
+  14E_0C13: ã≈     |8B C5               | MOV EAX,EBP{dist}
+  150_0C15: +ÉÏ... |2B 83 EC 07 00 00   | SUB EAX,DWORD PTR [EBX+2028{@_Dv_^.?2028}]
+  156_0C1B: @      |40                  | INC EAX
+  157_0C1C: âÑ$Ï...|89 84 24 EC 01 00 00| MOV DWORD PTR [ESP+492],EAX
+  15E_0C23: €Ñ$Ï...|DB 84 24 EC 01 00 00| FILD DWORD PTR [ESP+492]
+  165_0C2A: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 plantspacing{#$F}]
+  16A_0C2F: ÿ.     |D8 08               | FMUL DWORD PTR [EAX]
+  16C_0C31: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  171_0C36: ãìÏ... |8B 93 EC 07 00 00   | MOV EDX,DWORD PTR [EBX+2028{@_Dv_^.?2028}]
+  177_0C3C: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  17B_0C40: ÿÄÙ... |D8 80 F4 07 00 00   | FADD DWORD PTR [EAX+2036]
+  181_0C46: Ÿ\$@   |D9 5C 24 40         | FSTP DWORD PTR [ESP+64{limitr}]
+  185_0C4A: õ      |9B                  | FWAIT 
+// -- Line #341 -- 
+  186_0C4B: ŸD$@   |D9 44 24 40         | FLD DWORD PTR [ESP+64{limitr}]
+  18A_0C4F: ÿõÃ... |D8 9B CC 07 00 00   | FCOMP DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  190_0C55: ﬂ‡     |DF E0               | FNSTSW AX
+  192_0C57: û      |9E                  | SAHF 
+  193_0C58: w.     |77 11               | JNBE +17 (0x1A6)
+  195_0C5A: €-‘... |DB 2D(D4 06 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˙?' {setsides{#$4A}+1748}]
+  19B_0C60: ÿÉÃ... |D8 83 CC 07 00 00   | FADD DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  1A1_0C66: Ÿ\$@   |D9 5C 24 40         | FSTP DWORD PTR [ESP+64{limitr}]
+  1A5_0C6A: õ      |9B                  | FWAIT 
+// -- Line #344 -- 
+  1A6_0C6B: ;´Ë... |3B AB E8 07 00 00   | CMP EBP{dist},DWORD PTR [EBX+2024{@_Dv_^.?2024}]
+  1AC_0C71: ~.     |7E 1B               | JLE +27 (0x1C9)
+  1AE_0C73: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  1B3_0C78: ãìË... |8B 93 E8 07 00 00   | MOV EDX,DWORD PTR [EBX+2024{@_Dv_^.?2024}]
+  1B9_0C7E: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  1BD_0C82: ãÄ.... |8B 80 00 08 00 00   | MOV EAX,DWORD PTR [EAX+2048]
+  1C3_0C88: âD$<   |89 44 24 3C         | MOV DWORD PTR [ESP+60{limita}],EAX
+  1C7_0C8C: ÎE     |EB 45               | JMP +69 (0x20E)
+// -- Line #346 -- 
+  1C9_0C8E: ãÉË... |8B 83 E8 07 00 00   | MOV EAX,DWORD PTR [EBX+2024{@_Dv_^.?2024}]
+  1CF_0C94: +≈     |2B C5               | SUB EAX,EBP{dist}
+  1D1_0C96: ã..... |8B 15(00 00 00 00   | MOV EDX,DWORD PTR [&K3 plantsperrow{#$C}]
+  1D7_0C9C: Q      |51                  | PUSH ECX{@i}
+  1D8_0C9D: ã.     |8B 0A               | MOV ECX{@i},DWORD PTR [EDX]
+  1DA_0C9F: ô      |99                  | CDQ 
+  1DB_0CA0: ˜˘     |F7 F9               | IDIV ECX{@i}
+  1DD_0CA2: Y      |59                  | POP ECX{@i}
+  1DE_0CA3: @      |40                  | INC EAX
+  1DF_0CA4: âÑ$Ï...|89 84 24 EC 01 00 00| MOV DWORD PTR [ESP+492],EAX
+  1E6_0CAB: €Ñ$Ï...|DB 84 24 EC 01 00 00| FILD DWORD PTR [ESP+492]
+  1ED_0CB2: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 rowspacing{#$10}]
+  1F2_0CB7: ÿ.     |D8 08               | FMUL DWORD PTR [EAX]
+  1F4_0CB9: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  1F9_0CBE: ãìË... |8B 93 E8 07 00 00   | MOV EDX,DWORD PTR [EBX+2024{@_Dv_^.?2024}]
+  1FF_0CC4: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  203_0CC8: ÿ®.... |D8 A8 00 08 00 00   | FSUBR DWORD PTR [EAX+2048]
+  209_0CCE: Ÿ\$<   |D9 5C 24 3C         | FSTP DWORD PTR [ESP+60{limita}]
+  20D_0CD2: õ      |9B                  | FWAIT 
+// -- Line #348 -- 
+  20E_0CD3: ŸD$<   |D9 44 24 3C         | FLD DWORD PTR [ESP+60{limita}]
+  212_0CD7: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  218_0CDD: ﬂ‡     |DF E0               | FNSTSW AX
+  21A_0CDF: û      |9E                  | SAHF 
+  21B_0CE0: r.     |72 11               | JB +17 (0x22E)
+  21D_0CE2: €-‘... |DB 2D(D4 06 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˙?' {setsides{#$4A}+1748}]
+  223_0CE8: ÿ´–... |D8 AB D0 07 00 00   | FSUBR DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  229_0CEE: Ÿ\$<   |D9 5C 24 3C         | FSTP DWORD PTR [ESP+60{limita}]
+  22D_0CF2: õ      |9B                  | FWAIT 
+// -- Line #351 -- 
+  22E_0CF3: ;´... |3B AB F0 07 00 00   | CMP EBP{dist},DWORD PTR [EBX+2032{@_Dv_^.?2032}]
+  234_0CF9: }.     |7D 1B               | JNL +27 (0x251)
+  236_0CFB: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  23B_0D00: ãì... |8B 93 F0 07 00 00   | MOV EDX,DWORD PTR [EBX+2032{@_Dv_^.?2032}]
+  241_0D06: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  245_0D0A: ãÄ¯... |8B 80 F8 07 00 00   | MOV EAX,DWORD PTR [EAX+2040]
+  24B_0D10: âD$D   |89 44 24 44         | MOV DWORD PTR [ESP+68{limitb}],EAX
+  24F_0D14: ÎC     |EB 43               | JMP +67 (0x294)
+// -- Line #352 -- 
+  251_0D16: ã≈     |8B C5               | MOV EAX,EBP{dist}
+  253_0D18: +É... |2B 83 F0 07 00 00   | SUB EAX,DWORD PTR [EBX+2032{@_Dv_^.?2032}]
+  259_0D1E: ã..... |8B 15(00 00 00 00   | MOV EDX,DWORD PTR [&K3 plantsperrow{#$C}]
+  25F_0D24: ã.     |8B 0A               | MOV ECX{@i},DWORD PTR [EDX]
+  261_0D26: ô      |99                  | CDQ 
+  262_0D27: ˜˘     |F7 F9               | IDIV ECX{@i}
+  264_0D29: @      |40                  | INC EAX
+  265_0D2A: âÑ$Ï...|89 84 24 EC 01 00 00| MOV DWORD PTR [ESP+492],EAX
+  26C_0D31: €Ñ$Ï...|DB 84 24 EC 01 00 00| FILD DWORD PTR [ESP+492]
+  273_0D38: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 rowspacing{#$10}]
+  278_0D3D: ÿ.     |D8 08               | FMUL DWORD PTR [EAX]
+  27A_0D3F: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casPtrs{#$8}]
+  27F_0D44: ãì... |8B 93 F0 07 00 00   | MOV EDX,DWORD PTR [EBX+2032{@_Dv_^.?2032}]
+  285_0D4A: ãDê¸   |8B 44 90 FC         | MOV EAX,DWORD PTR [EAX+4*EDX-4]
+  289_0D4E: ÿÄ¯... |D8 80 F8 07 00 00   | FADD DWORD PTR [EAX+2040]
+  28F_0D54: Ÿ\$D   |D9 5C 24 44         | FSTP DWORD PTR [ESP+68{limitb}]
+  293_0D58: õ      |9B                  | FWAIT 
+// -- Line #353 -- 
+  294_0D59: ŸD$D   |D9 44 24 44         | FLD DWORD PTR [ESP+68{limitb}]
+  298_0D5D: ÿõ–... |D8 9B D0 07 00 00   | FCOMP DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  29E_0D63: ﬂ‡     |DF E0               | FNSTSW AX
+  2A0_0D65: û      |9E                  | SAHF 
+  2A1_0D66: w.     |77 11               | JNBE +17 (0x2B4)
+  2A3_0D68: €-‘... |DB 2D(D4 06 00 00   | FLD TBYTE PTR [&K1 'ÕÃÃÃÃÃÃÃ˙?' {setsides{#$4A}+1748}]
+  2A9_0D6E: ÿÉ–... |D8 83 D0 07 00 00   | FADD DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  2AF_0D74: Ÿ\$D   |D9 5C 24 44         | FSTP DWORD PTR [ESP+68{limitb}]
+  2B3_0D78: õ      |9B                  | FWAIT 
+// -- Line #356 -- 
+  2B4_0D79: ŸD$@   |D9 44 24 40         | FLD DWORD PTR [ESP+64{limitr}]
+  2B8_0D7D: ÿd$8   |D8 64 24 38         | FSUB DWORD PTR [ESP+56{limitl}]
+  2BC_0D81: ŸD$D   |D9 44 24 44         | FLD DWORD PTR [ESP+68{limitb}]
+  2C0_0D85: ÿd$<   |D8 64 24 3C         | FSUB DWORD PTR [ESP+60{limita}]
+  2C4_0D89: ﬁ…     |DE C9               | FMULP 
+  2C6_0D8B: ÿ.‡... |D8 0D(E0 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1760}]
+  2CC_0D91: Ÿ\$.   |D9 5C 24 0C         | FSTP DWORD PTR [ESP+12{availarea}]
+  2D0_0D95: õ      |9B                  | FWAIT 
+// -- Line #360 -- 
+  2D1_0D96: ŸÉ.... |D9 83 00 08 00 00   | FLD DWORD PTR [EBX+2048{@_Dv_^.?2048}]
+  2D7_0D9C: ÿ£¯... |D8 A3 F8 07 00 00   | FSUB DWORD PTR [EBX+2040{@_Dv_^.?2040}]
+  2DD_0DA2: ŸÉ¸... |D9 83 FC 07 00 00   | FLD DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  2E3_0DA8: ÿ£Ù... |D8 A3 F4 07 00 00   | FSUB DWORD PTR [EBX+2036{@_Dv_^.?2036}]
+  2E9_0DAE: ﬁ…     |DE C9               | FMULP 
+  2EB_0DB0: ÿ.‡... |D8 0D(E0 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1760}]
+  2F1_0DB6: Ÿ\$.   |D9 5C 24 10         | FSTP DWORD PTR [ESP+16{currentarea}]
+  2F5_0DBA: õ      |9B                  | FWAIT 
+// -- Line #363 -- 
+  2F6_0DBB: ŸD$.   |D9 44 24 0C         | FLD DWORD PTR [ESP+12{availarea}]
+  2FA_0DBF: ÿd$.   |D8 64 24 10         | FSUB DWORD PTR [ESP+16{currentarea}]
+  2FE_0DC3: Ÿ\$.   |D9 5C 24 18         | FSTP DWORD PTR [ESP+24{suparea}]
+  302_0DC7: õ      |9B                  | FWAIT 
+// -- Line #364 -- 
+  303_0DC8: ŸD$.   |D9 44 24 18         | FLD DWORD PTR [ESP+24{suparea}]
+  307_0DCC: ÿ.–... |D8 1D(D0 06 00 00   | FCOMP DWORD PTR [&K1 '' {setsides{#$4A}+1744}]
+  30D_0DD2: ﬂ‡     |DF E0               | FNSTSW AX
+  30F_0DD4: û      |9E                  | SAHF 
+  310_0DD5: s.     |73 06               | JNB +6 (0x318)
+  312_0DD7: 3¿     |33 C0               | XOR EAX,EAX
+  314_0DD9: âD$.   |89 44 24 18         | MOV DWORD PTR [ESP+24{suparea}],EAX
+// -- Line #367 -- 
+  318_0DDD: ŸÉ.... |D9 83 1C 04 00 00   | FLD DWORD PTR [EBX+1052{@_Dv_^.?1052}]
+  31E_0DE3: °....  |A1(00 00 00 00      | MOV EAX,DWORD PTR [&K3 casvar{#$11}]
+  323_0DE8: ÿH(    |D8 48 28            | FMUL DWORD PTR [EAX+40]
+  326_0DEB: Ÿ\$$   |D9 5C 24 24         | FSTP DWORD PTR [ESP+36{leafarea}]
+  32A_0DEF: õ      |9B                  | FWAIT 
+// -- Line #370 -- 
+  32B_0DF0: ŸÉ... |D9 83 F0 03 00 00   | FLD DWORD PTR [EBX+1008{@_Dv_^.?1008}]
+  331_0DF6: ÿ.‰... |D8 1D(E4 06 00 00   | FCOMP DWORD PTR [&K1 '' {setsides{#$4A}+1764}]
+  337_0DFC: ﬂ‡     |DF E0               | FNSTSW AX
+  339_0DFE: û      |9E                  | SAHF 
+  33A_0DFF: s.     |73 12               | JNB +18 (0x34E)
+  33C_0E01: ˇt$$   |FF 74 24 24         | PUSH DWORD PTR [ESP+36{leafarea}]
+  340_0E05: ˇt$.   |FF 74 24 14         | PUSH DWORD PTR [ESP+20{demarea}]
+  344_0E09: Ë....  |E8(00 00 00 00      | CALL &K2 max{#$3}
+  349_0E0E: Ÿ\$$   |D9 5C 24 24         | FSTP DWORD PTR [ESP+36{leafarea}]
+  34D_0E12: õ      |9B                  | FWAIT 
+// -- Line #371 -- 
+  34E_0E13: 3¿     |33 C0               | XOR EAX,EAX
+  350_0E15: âD$.   |89 44 24 1C         | MOV DWORD PTR [ESP+28{newarea}],EAX
+// -- Line #372 -- 
+  354_0E19: ŸD$$   |D9 44 24 24         | FLD DWORD PTR [ESP+36{leafarea}]
+  358_0E1D: ÿd$.   |D8 64 24 10         | FSUB DWORD PTR [ESP+16{currentarea}]
+  35C_0E21: Ÿ\$.   |D9 5C 24 14         | FSTP DWORD PTR [ESP+20{demarea}]
+  360_0E25: õ      |9B                  | FWAIT 
+// -- Line #373 -- 
+  361_0E26: ŸD$.   |D9 44 24 14         | FLD DWORD PTR [ESP+20{demarea}]
+  365_0E2A: ÿ.–... |D8 1D(D0 06 00 00   | FCOMP DWORD PTR [&K1 '' {setsides{#$4A}+1744}]
+  36B_0E30: ﬂ‡     |DF E0               | FNSTSW AX
+  36D_0E32: û      |9E                  | SAHF 
+  36E_0E33: v<     |76 3C               | JBE +60 (0x3AC)
+// -- Line #376 -- 
+  370_0E35: «D$..◊#º|C7 44 24 08 0A D7 23 BC| MOV DWORD PTR [ESP+8{alpha}],$BC23D70A
+// -- Line #377 -- 
+  378_0E3D: ŸD$.   |D9 44 24 18         | FLD DWORD PTR [ESP+24{suparea}]
+  37C_0E41: ÿt$.   |D8 74 24 14         | FDIV DWORD PTR [ESP+20{demarea}]
+  380_0E45: ÿL$.   |D8 4C 24 08         | FMUL DWORD PTR [ESP+8{alpha}]
+  384_0E49: Éƒ¸    |83 C4 FC            | ADD ESP{dist},-4
+  387_0E4C: Ÿ.$    |D9 1C 24            | FSTP DWORD PTR [ESP{dist}]
+  38A_0E4F: õ      |9B                  | FWAIT 
+  38B_0E50: Ë....  |E8(00 00 00 00      | CALL &K2 Expo{#$6}
+  390_0E55: ÿ-Ë... |D8 2D(E8 06 00 00   | FSUBR DWORD PTR [&K1 '' {setsides{#$4A}+1768}]
+  396_0E5B: ÿL$.   |D8 4C 24 14         | FMUL DWORD PTR [ESP+20{demarea}]
+  39A_0E5F: Ÿ\$.   |D9 5C 24 1C         | FSTP DWORD PTR [ESP+28{newarea}]
+  39E_0E63: õ      |9B                  | FWAIT 
+// -- Line #380 -- 
+  39F_0E64: ŸD$.   |D9 44 24 10         | FLD DWORD PTR [ESP+16{currentarea}]
+  3A3_0E68: ÿD$.   |D8 44 24 1C         | FADD DWORD PTR [ESP+28{newarea}]
+  3A7_0E6C: Ÿ\$.   |D9 5C 24 1C         | FSTP DWORD PTR [ESP+28{newarea}]
+  3AB_0E70: õ      |9B                  | FWAIT 
+// -- Line #383 -- 
+  3AC_0E71: ŸD$.   |D9 44 24 14         | FLD DWORD PTR [ESP+20{demarea}]
+  3B0_0E75: ÿ.–... |D8 1D(D0 06 00 00   | FCOMP DWORD PTR [&K1 '' {setsides{#$4A}+1744}]
+  3B6_0E7B: ﬂ‡     |DF E0               | FNSTSW AX
+  3B8_0E7D: û      |9E                  | SAHF 
+  3B9_0E7E: u.     |75 08               | JNZ +8 (0x3C3)
+  3BB_0E80: ãD$.   |8B 44 24 10         | MOV EAX,DWORD PTR [ESP+16{currentarea}]
+  3BF_0E84: âD$.   |89 44 24 1C         | MOV DWORD PTR [ESP+28{newarea}],EAX
+// -- Line #384 -- 
+  3C3_0E88: ŸD$.   |D9 44 24 14         | FLD DWORD PTR [ESP+20{demarea}]
+  3C7_0E8C: ÿ.–... |D8 1D(D0 06 00 00   | FCOMP DWORD PTR [&K1 '' {setsides{#$4A}+1744}]
+  3CD_0E92: ﬂ‡     |DF E0               | FNSTSW AX
+  3CF_0E94: û      |9E                  | SAHF 
+  3D0_0E95: s.     |73 08               | JNB +8 (0x3DA)
+  3D2_0E97: ãD$$   |8B 44 24 24         | MOV EAX,DWORD PTR [ESP+36{leafarea}]
+  3D6_0E9B: âD$.   |89 44 24 1C         | MOV DWORD PTR [ESP+28{newarea}],EAX
+// -- Line #389 -- 
+  3DA_0E9F: €-Ï... |DB 2D(EC 06 00 00   | FLD TBYTE PTR [&K1 #10'◊£p='#10'◊£¯?' {setsides{#$4A}+1772}]
+  3E0_0EA5: ÿL$.   |D8 4C 24 1C         | FMUL DWORD PTR [ESP+28{newarea}]
+  3E4_0EA9: Ÿ\$.   |D9 5C 24 1C         | FSTP DWORD PTR [ESP+28{newarea}]
+  3E8_0EAD: õ      |9B                  | FWAIT 
+// -- Line #393 -- 
+  3E9_0EAE: ŸD$@   |D9 44 24 40         | FLD DWORD PTR [ESP+64{limitr}]
+  3ED_0EB2: ÿd$8   |D8 64 24 38         | FSUB DWORD PTR [ESP+56{limitl}]
+  3F1_0EB6: Ÿ\$X   |D9 5C 24 58         | FSTP DWORD PTR [ESP+88{w}]
+  3F5_0EBA: õ      |9B                  | FWAIT 
+// -- Line #394 -- 
+  3F6_0EBB: ŸD$D   |D9 44 24 44         | FLD DWORD PTR [ESP+68{limitb}]
+  3FA_0EBF: ÿd$<   |D8 64 24 3C         | FSUB DWORD PTR [ESP+60{limita}]
+  3FE_0EC3: Ÿ\$T   |D9 5C 24 54         | FSTP DWORD PTR [ESP+84{h}]
+  402_0EC7: õ      |9B                  | FWAIT 
+// -- Line #395 -- 
+  403_0EC8: ŸD$T   |D9 44 24 54         | FLD DWORD PTR [ESP+84{h}]
+  407_0ECC: ÿt$X   |D8 74 24 58         | FDIV DWORD PTR [ESP+88{w}]
+  40B_0ED0: Ÿ\$P   |D9 5C 24 50         | FSTP DWORD PTR [ESP+80{hwratio}]
+  40F_0ED4: õ      |9B                  | FWAIT 
+// -- Line #396 -- 
+  410_0ED5: ŸD$.   |D9 44 24 1C         | FLD DWORD PTR [ESP+28{newarea}]
+  414_0ED9: ÿt$P   |D8 74 24 50         | FDIV DWORD PTR [ESP+80{hwratio}]
+  418_0EDD: Ÿ˙     |D9 FA               | FSQRT 
+  41A_0EDF: Ÿ\$H   |D9 5C 24 48         | FSTP DWORD PTR [ESP+72{neww}]
+  41E_0EE3: õ      |9B                  | FWAIT 
+// -- Line #397 -- 
+  41F_0EE4: ŸD$.   |D9 44 24 1C         | FLD DWORD PTR [ESP+28{newarea}]
+  423_0EE8: ÿt$H   |D8 74 24 48         | FDIV DWORD PTR [ESP+72{neww}]
+  427_0EEC: Ÿ\$L   |D9 5C 24 4C         | FSTP DWORD PTR [ESP+76{newh}]
+  42B_0EF0: õ      |9B                  | FWAIT 
+// -- Line #400 -- 
+  42C_0EF1: ŸD$8   |D9 44 24 38         | FLD DWORD PTR [ESP+56{limitl}]
+  430_0EF5: ÿ£Ã... |D8 A3 CC 07 00 00   | FSUB DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  436_0EFB: ŸD$H   |D9 44 24 48         | FLD DWORD PTR [ESP+72{neww}]
+  43A_0EFF: ÿt$X   |D8 74 24 58         | FDIV DWORD PTR [ESP+88{w}]
+  43E_0F03: ﬁ…     |DE C9               | FMULP 
+  440_0F05: ÿÉÃ... |D8 83 CC 07 00 00   | FADD DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  446_0F0B: Ÿ\$(   |D9 5C 24 28         | FSTP DWORD PTR [ESP+40{newl}]
+  44A_0F0F: õ      |9B                  | FWAIT 
+// -- Line #401 -- 
+  44B_0F10: ŸD$@   |D9 44 24 40         | FLD DWORD PTR [ESP+64{limitr}]
+  44F_0F14: ÿ£Ã... |D8 A3 CC 07 00 00   | FSUB DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  455_0F1A: ŸD$H   |D9 44 24 48         | FLD DWORD PTR [ESP+72{neww}]
+  459_0F1E: ÿt$X   |D8 74 24 58         | FDIV DWORD PTR [ESP+88{w}]
+  45D_0F22: ﬁ…     |DE C9               | FMULP 
+  45F_0F24: ÿÉÃ... |D8 83 CC 07 00 00   | FADD DWORD PTR [EBX+1996{@_Dv_^.?1996}]
+  465_0F2A: Ÿ\$,   |D9 5C 24 2C         | FSTP DWORD PTR [ESP+44{newr}]
+  469_0F2E: õ      |9B                  | FWAIT 
+// -- Line #402 -- 
+  46A_0F2F: ŸD$<   |D9 44 24 3C         | FLD DWORD PTR [ESP+60{limita}]
+  46E_0F33: ÿ£–... |D8 A3 D0 07 00 00   | FSUB DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  474_0F39: ŸD$L   |D9 44 24 4C         | FLD DWORD PTR [ESP+76{newh}]
+  478_0F3D: ÿt$T   |D8 74 24 54         | FDIV DWORD PTR [ESP+84{h}]
+  47C_0F41: ﬁ…     |DE C9               | FMULP 
+  47E_0F43: ÿÉ–... |D8 83 D0 07 00 00   | FADD DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  484_0F49: Ÿ\$0   |D9 5C 24 30         | FSTP DWORD PTR [ESP+48{newa}]
+  488_0F4D: õ      |9B                  | FWAIT 
+// -- Line #403 -- 
+  489_0F4E: ŸD$D   |D9 44 24 44         | FLD DWORD PTR [ESP+68{limitb}]
+  48D_0F52: ÿ£–... |D8 A3 D0 07 00 00   | FSUB DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  493_0F58: ŸD$H   |D9 44 24 48         | FLD DWORD PTR [ESP+72{neww}]
+  497_0F5C: ÿt$X   |D8 74 24 58         | FDIV DWORD PTR [ESP+88{w}]
+  49B_0F60: ﬁ…     |DE C9               | FMULP 
+  49D_0F62: ÿÉ–... |D8 83 D0 07 00 00   | FADD DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  4A3_0F68: Ÿ\$4   |D9 5C 24 34         | FSTP DWORD PTR [ESP+52{newb}]
+  4A7_0F6C: õ      |9B                  | FWAIT 
+// -- Line #404 -- 
+  4A8_0F6D: ŸD$@   |D9 44 24 40         | FLD DWORD PTR [ESP+64{limitr}]
+  4AC_0F71: ÿd$8   |D8 64 24 38         | FSUB DWORD PTR [ESP+56{limitl}]
+  4B0_0F75: ÿ\$H   |D8 5C 24 48         | FCOMP DWORD PTR [ESP+72{neww}]
+  4B4_0F79: ﬂ‡     |DF E0               | FNSTSW AX
+  4B6_0F7B: û      |9E                  | SAHF 
+  4B7_0F7C: .ÇÑ... |0F 82 84 00 00 00   | JB +132 (0x541)
+// -- Line #406 -- 
+  4BD_0F82: ŸD$,   |D9 44 24 2C         | FLD DWORD PTR [ESP+44{newr}]
+  4C1_0F86: ÿ\$@   |D8 5C 24 40         | FCOMP DWORD PTR [ESP+64{limitr}]
+  4C5_0F8A: ﬂ‡     |DF E0               | FNSTSW AX
+  4C7_0F8C: û      |9E                  | SAHF 
+  4C8_0F8D: v.     |76 1D               | JBE +29 (0x4E7)
+// -- Line #408 -- 
+  4CA_0F8F: ãD$@   |8B 44 24 40         | MOV EAX,DWORD PTR [ESP+64{limitr}]
+  4CE_0F93: âÉ¸... |89 83 FC 07 00 00   | MOV DWORD PTR [EBX+2044{@_Dv_^.?2044}],EAX
+// -- Line #409 -- 
+  4D4_0F99: ŸD$,   |D9 44 24 2C         | FLD DWORD PTR [ESP+44{newr}]
+  4D8_0F9D: ÿd$@   |D8 64 24 40         | FSUB DWORD PTR [ESP+64{limitr}]
+  4DC_0FA1: ÿl$(   |D8 6C 24 28         | FSUBR DWORD PTR [ESP+40{newl}]
+  4E0_0FA5: ŸõÙ... |D9 9B F4 07 00 00   | FSTP DWORD PTR [EBX+2036{@_Dv_^.?2036}]
+  4E6_0FAB: õ      |9B                  | FWAIT 
+// -- Line #411 -- 
+  4E7_0FAC: ŸD$(   |D9 44 24 28         | FLD DWORD PTR [ESP+40{newl}]
+  4EB_0FB0: ÿ\$8   |D8 5C 24 38         | FCOMP DWORD PTR [ESP+56{limitl}]
+  4EF_0FB4: ﬂ‡     |DF E0               | FNSTSW AX
+  4F1_0FB6: û      |9E                  | SAHF 
+  4F2_0FB7: s.     |73 1D               | JNB +29 (0x511)
+// -- Line #413 -- 
+  4F4_0FB9: ãD$8   |8B 44 24 38         | MOV EAX,DWORD PTR [ESP+56{limitl}]
+  4F8_0FBD: âÉÙ... |89 83 F4 07 00 00   | MOV DWORD PTR [EBX+2036{@_Dv_^.?2036}],EAX
+// -- Line #414 -- 
+  4FE_0FC3: ŸD$8   |D9 44 24 38         | FLD DWORD PTR [ESP+56{limitl}]
+  502_0FC7: ÿd$(   |D8 64 24 28         | FSUB DWORD PTR [ESP+40{newl}]
+  506_0FCB: ÿD$,   |D8 44 24 2C         | FADD DWORD PTR [ESP+44{newr}]
+  50A_0FCF: Ÿõ¸... |D9 9B FC 07 00 00   | FSTP DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  510_0FD5: õ      |9B                  | FWAIT 
+// -- Line #416 -- 
+  511_0FD6: ŸD$(   |D9 44 24 28         | FLD DWORD PTR [ESP+40{newl}]
+  515_0FDA: ÿ\$8   |D8 5C 24 38         | FCOMP DWORD PTR [ESP+56{limitl}]
+  519_0FDE: ﬂ‡     |DF E0               | FNSTSW AX
+  51B_0FE0: û      |9E                  | SAHF 
+  51C_0FE1: rv     |72 76               | JB +118 (0x594)
+  51E_0FE3: ŸD$,   |D9 44 24 2C         | FLD DWORD PTR [ESP+44{newr}]
+  522_0FE7: ÿ\$@   |D8 5C 24 40         | FCOMP DWORD PTR [ESP+64{limitr}]
+  526_0FEB: ﬂ‡     |DF E0               | FNSTSW AX
+  528_0FED: û      |9E                  | SAHF 
+  529_0FEE: wi     |77 69               | JNBE +105 (0x594)
+// -- Line #418 -- 
+  52B_0FF0: ãD$(   |8B 44 24 28         | MOV EAX,DWORD PTR [ESP+40{newl}]
+  52F_0FF4: âÉÙ... |89 83 F4 07 00 00   | MOV DWORD PTR [EBX+2036{@_Dv_^.?2036}],EAX
+// -- Line #419 -- 
+  535_0FFA: ãD$,   |8B 44 24 2C         | MOV EAX,DWORD PTR [ESP+44{newr}]
+  539_0FFE: âÉ¸... |89 83 FC 07 00 00   | MOV DWORD PTR [EBX+2044{@_Dv_^.?2044}],EAX
+  53F_1004: ÎS     |EB 53               | JMP +83 (0x594)
+// -- Line #424 -- 
+  541_1006: ãD$8   |8B 44 24 38         | MOV EAX,DWORD PTR [ESP+56{limitl}]
+  545_100A: âÉÙ... |89 83 F4 07 00 00   | MOV DWORD PTR [EBX+2036{@_Dv_^.?2036}],EAX
+// -- Line #425 -- 
+  54B_1010: ãD$@   |8B 44 24 40         | MOV EAX,DWORD PTR [ESP+64{limitr}]
+  54F_1014: âÉ¸... |89 83 FC 07 00 00   | MOV DWORD PTR [EBX+2044{@_Dv_^.?2044}],EAX
+// -- Line #426 -- 
+  555_101A: ŸÉ¸... |D9 83 FC 07 00 00   | FLD DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  55B_1020: ÿ£Ù... |D8 A3 F4 07 00 00   | FSUB DWORD PTR [EBX+2036{@_Dv_^.?2036}]
+  561_1026: ÿ|$.   |D8 7C 24 1C         | FDIVR DWORD PTR [ESP+28{newarea}]
+  565_102A: Ÿ\$L   |D9 5C 24 4C         | FSTP DWORD PTR [ESP+76{newh}]
+  569_102E: õ      |9B                  | FWAIT 
+// -- Line #427 -- 
+  56A_102F: ŸD$L   |D9 44 24 4C         | FLD DWORD PTR [ESP+76{newh}]
+  56E_1033: ÿ.¯... |D8 0D(F8 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1784}]
+  574_1039: ÿ´–... |D8 AB D0 07 00 00   | FSUBR DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  57A_103F: Ÿ\$0   |D9 5C 24 30         | FSTP DWORD PTR [ESP+48{newa}]
+  57E_1043: õ      |9B                  | FWAIT 
+// -- Line #428 -- 
+  57F_1044: ŸD$L   |D9 44 24 4C         | FLD DWORD PTR [ESP+76{newh}]
+  583_1048: ÿ.¯... |D8 0D(F8 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1784}]
+  589_104E: ÿÉ–... |D8 83 D0 07 00 00   | FADD DWORD PTR [EBX+2000{@_Dv_^.?2000}]
+  58F_1054: Ÿ\$4   |D9 5C 24 34         | FSTP DWORD PTR [ESP+52{newb}]
+  593_1058: õ      |9B                  | FWAIT 
+// -- Line #431 -- 
+  594_1059: ŸD$D   |D9 44 24 44         | FLD DWORD PTR [ESP+68{limitb}]
+  598_105D: ÿd$<   |D8 64 24 3C         | FSUB DWORD PTR [ESP+60{limita}]
+  59C_1061: ÿ\$L   |D8 5C 24 4C         | FCOMP DWORD PTR [ESP+76{newh}]
+  5A0_1065: ﬂ‡     |DF E0               | FNSTSW AX
+  5A2_1067: û      |9E                  | SAHF 
+  5A3_1068: .ÇÑ... |0F 82 84 00 00 00   | JB +132 (0x62D)
+// -- Line #433 -- 
+  5A9_106E: ŸD$0   |D9 44 24 30         | FLD DWORD PTR [ESP+48{newa}]
+  5AD_1072: ÿ\$<   |D8 5C 24 3C         | FCOMP DWORD PTR [ESP+60{limita}]
+  5B1_1076: ﬂ‡     |DF E0               | FNSTSW AX
+  5B3_1078: û      |9E                  | SAHF 
+  5B4_1079: s.     |73 1D               | JNB +29 (0x5D3)
+// -- Line #435 -- 
+  5B6_107B: ãD$<   |8B 44 24 3C         | MOV EAX,DWORD PTR [ESP+60{limita}]
+  5BA_107F: âÉ¯... |89 83 F8 07 00 00   | MOV DWORD PTR [EBX+2040{@_Dv_^.?2040}],EAX
+// -- Line #436 -- 
+  5C0_1085: ŸD$<   |D9 44 24 3C         | FLD DWORD PTR [ESP+60{limita}]
+  5C4_1089: ÿd$0   |D8 64 24 30         | FSUB DWORD PTR [ESP+48{newa}]
+  5C8_108D: ÿD$4   |D8 44 24 34         | FADD DWORD PTR [ESP+52{newb}]
+  5CC_1091: Ÿõ.... |D9 9B 00 08 00 00   | FSTP DWORD PTR [EBX+2048{@_Dv_^.?2048}]
+  5D2_1097: õ      |9B                  | FWAIT 
+// -- Line #438 -- 
+  5D3_1098: ŸD$4   |D9 44 24 34         | FLD DWORD PTR [ESP+52{newb}]
+  5D7_109C: ÿ\$D   |D8 5C 24 44         | FCOMP DWORD PTR [ESP+68{limitb}]
+  5DB_10A0: ﬂ‡     |DF E0               | FNSTSW AX
+  5DD_10A2: û      |9E                  | SAHF 
+  5DE_10A3: v.     |76 1D               | JBE +29 (0x5FD)
+// -- Line #440 -- 
+  5E0_10A5: ãD$D   |8B 44 24 44         | MOV EAX,DWORD PTR [ESP+68{limitb}]
+  5E4_10A9: âÉ.... |89 83 00 08 00 00   | MOV DWORD PTR [EBX+2048{@_Dv_^.?2048}],EAX
+// -- Line #441 -- 
+  5EA_10AF: ŸD$4   |D9 44 24 34         | FLD DWORD PTR [ESP+52{newb}]
+  5EE_10B3: ÿd$D   |D8 64 24 44         | FSUB DWORD PTR [ESP+68{limitb}]
+  5F2_10B7: ÿl$0   |D8 6C 24 30         | FSUBR DWORD PTR [ESP+48{newa}]
+  5F6_10BB: Ÿõ¯... |D9 9B F8 07 00 00   | FSTP DWORD PTR [EBX+2040{@_Dv_^.?2040}]
+  5FC_10C1: õ      |9B                  | FWAIT 
+// -- Line #443 -- 
+  5FD_10C2: ŸD$0   |D9 44 24 30         | FLD DWORD PTR [ESP+48{newa}]
+  601_10C6: ÿ\$<   |D8 5C 24 3C         | FCOMP DWORD PTR [ESP+60{limita}]
+  605_10CA: ﬂ‡     |DF E0               | FNSTSW AX
+  607_10CC: û      |9E                  | SAHF 
+  608_10CD: r7     |72 37               | JB +55 (0x641)
+  60A_10CF: ŸD$4   |D9 44 24 34         | FLD DWORD PTR [ESP+52{newb}]
+  60E_10D3: ÿ\$D   |D8 5C 24 44         | FCOMP DWORD PTR [ESP+68{limitb}]
+  612_10D7: ﬂ‡     |DF E0               | FNSTSW AX
+  614_10D9: û      |9E                  | SAHF 
+  615_10DA: w*     |77 2A               | JNBE +42 (0x641)
+// -- Line #445 -- 
+  617_10DC: ãD$0   |8B 44 24 30         | MOV EAX,DWORD PTR [ESP+48{newa}]
+  61B_10E0: âÉ¯... |89 83 F8 07 00 00   | MOV DWORD PTR [EBX+2040{@_Dv_^.?2040}],EAX
+// -- Line #446 -- 
+  621_10E6: ãD$4   |8B 44 24 34         | MOV EAX,DWORD PTR [ESP+52{newb}]
+  625_10EA: âÉ.... |89 83 00 08 00 00   | MOV DWORD PTR [EBX+2048{@_Dv_^.?2048}],EAX
+  62B_10F0: Î.     |EB 14               | JMP +20 (0x641)
+// -- Line #451 -- 
+  62D_10F2: ãD$<   |8B 44 24 3C         | MOV EAX,DWORD PTR [ESP+60{limita}]
+  631_10F6: âÉ¯... |89 83 F8 07 00 00   | MOV DWORD PTR [EBX+2040{@_Dv_^.?2040}],EAX
+// -- Line #452 -- 
+  637_10FC: ãD$D   |8B 44 24 44         | MOV EAX,DWORD PTR [ESP+68{limitb}]
+  63B_1100: âÉ.... |89 83 00 08 00 00   | MOV DWORD PTR [EBX+2048{@_Dv_^.?2048}],EAX
+// -- Line #463 -- 
+  641_1106: ŸD$@   |D9 44 24 40         | FLD DWORD PTR [ESP+64{limitr}]
+  645_110A: ÿ£¸... |D8 A3 FC 07 00 00   | FSUB DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  64B_1110: ÿ.¯... |D8 0D(F8 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1784}]
+  651_1116: ÿÉ¸... |D8 83 FC 07 00 00   | FADD DWORD PTR [EBX+2044{@_Dv_^.?2044}]
+  657_111C: ŸÉÙ... |D9 83 F4 07 00 00   | FLD DWORD PTR [EBX+2036{@_Dv_^.?2036}]
+  65D_1122: ÿd$8   |D8 64 24 38         | FSUB DWORD PTR [ESP+56{limitl}]
+  661_1126: ÿ.¯... |D8 0D(F8 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1784}]
+  667_112C: ÿD$8   |D8 44 24 38         | FADD DWORD PTR [ESP+56{limitl}]
+  66B_1130: ﬁÈ     |DE E9               | FSUBP 
+  66D_1132: Ÿ\$X   |D9 5C 24 58         | FSTP DWORD PTR [ESP+88{w}]
+  671_1136: õ      |9B                  | FWAIT 
+// -- Line #464 -- 
+  672_1137: ŸD$D   |D9 44 24 44         | FLD DWORD PTR [ESP+68{limitb}]
+  676_113B: ÿ£.... |D8 A3 00 08 00 00   | FSUB DWORD PTR [EBX+2048{@_Dv_^.?2048}]
+  67C_1141: ÿ.¯... |D8 0D(F8 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1784}]
+  682_1147: ÿÉ.... |D8 83 00 08 00 00   | FADD DWORD PTR [EBX+2048{@_Dv_^.?2048}]
+  688_114D: ŸÉ¯... |D9 83 F8 07 00 00   | FLD DWORD PTR [EBX+2040{@_Dv_^.?2040}]
+  68E_1153: ÿd$<   |D8 64 24 3C         | FSUB DWORD PTR [ESP+60{limita}]
+  692_1157: ÿ.¯... |D8 0D(F8 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1784}]
+  698_115D: ÿD$<   |D8 44 24 3C         | FADD DWORD PTR [ESP+60{limita}]
+  69C_1161: ﬁÈ     |DE E9               | FSUBP 
+  69E_1163: Ÿ\$T   |D9 5C 24 54         | FSTP DWORD PTR [ESP+84{h}]
+  6A2_1167: õ      |9B                  | FWAIT 
+// -- Line #465 -- 
+  6A3_1168: ŸD$T   |D9 44 24 54         | FLD DWORD PTR [ESP+84{h}]
+  6A7_116C: ÿL$X   |D8 4C 24 58         | FMUL DWORD PTR [ESP+88{w}]
+  6AB_1170: ÿ.‡... |D8 0D(E0 06 00 00   | FMUL DWORD PTR [&K1 '' {setsides{#$4A}+1760}]
+  6B1_1176: Ÿõ.... |D9 9B 04 08 00 00   | FSTP DWORD PTR [EBX+2052{@_Dv_^.?2052}]
+  6B7_117C: õ      |9B                  | FWAIT 
+// -- Line #467 -- 
+  6B8_117D: É∆.    |83 C6 04            | ADD ESI,4
+// -- Line #321 -- 
+  6BB_1180: fˇœ    |66 FF CF            | DEC DI
+  6BE_1183: .Ö†˘ˇˇ |0F 85 A0 F9 FF FF   | JNZ -1632 (0x64)
+// -- Line #468 -- 
+  6C4_1189: Åƒ... |81 C4 F0 01 00 00   | ADD ESP{dist},$000001F0
+  6CA_118F: ]      |5D                  | POP EBP{dist}
+  6CB_1190: _      |5F                  | POP EDI
+  6CC_1191: ^      |5E                  | POP ESI
+  6CD_1192: [      |5B                  | POP EBX
+  6CE_1193: √      |C3                  | RETN 
+  6CF_1194: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  6D1_1196: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  6D3_1198: .Õ     |00 CD               | ADD CH,CL
+  6D5_119A: Ã      |CC                  | INT $1
+  6D6_119B: Ã      |CC                  | INT $1
+  6D7_119C: Ã      |CC                  | INT $1
+  6D8_119D: Ã      |CC                  | INT $1
+  6D9_119E: Ã      |CC                  | INT $1
+  6DA_119F: Ã      |CC                  | INT $1
+  6DB_11A0: Ã      |CC                  | INT $1
+  6DC_11A1: ˙      |FA                  | CLI 
+  6DD_11A2: ?      |3F                  | AAS 
+  6DE_11A3: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  6E0_11A5: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  6E2_11A7: »B..   |C8 42 00 00         | ENTER $0042,$00
+  6E6_11AB: zC     |7A 43               | JP +67 (0x72B)
+  6E8_11AD: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  6EA_11AF: Ä?.    |80 3F 0A            | CMP BYTE PTR [EDI],$0A
+  6ED_11B2: ◊      |D7                  | XLAT 
+  6EE_11B3: £p=.◊  |A3 70 3D 0A D7      | MOV DWORD PTR [$D70A3D70],EAX
+  6F3_11B8: £¯?..  |A3 F8 3F 00 00      | MOV DWORD PTR [$00003FF8],EAX
+  6F8_11BD: ..     |00 00               | ADD BYTE PTR [EAX],AL
+  6FA_11BF: .?     |00 3F               | ADD BYTE PTR [EDI],BH
+end;
+
+procedure Finalization{40,51F89FF7}{B0:0,Sz:2E,VProc:808}
+{LVFlags: 10,0, 0,0,8};
+begin//raw[$2E]at $D4F
+  00_11C1: U      [55                  | PUSH EBP
+  01_11C2: ãÏ     |8B EC               | MOV EBP,ESP
+  03_11C4: 3¿     |33 C0               | XOR EAX,EAX
+  05_11C6: U      |55                  | PUSH EBP
+  06_11C7: h%...  |68(25 00 00 00      | PUSH &K1 Finalization{#$66}+37
+  0B_11CC: dˇ0    |64 FF 30            | PUSH DWORD PTR FS:[EAX]
+  0E_11CF: dâ     |64 89 20            | MOV DWORD PTR FS:[EAX],ESP
+  11_11D2: ˇ..... |FF 05(00 00 00 00   | INC DWORD PTR [&K1 _DV_1{#$1D}]
+  17_11D8: 3¿     |33 C0               | XOR EAX,EAX
+  19_11DA: Z      |5A                  | POP EDX
+  1A_11DB: Y      |59                  | POP ECX
+  1B_11DC: Y      |59                  | POP ECX
+  1C_11DD: dâ.    |64 89 10            | MOV DWORD PTR FS:[EAX],EDX
+  1F_11E0: h,...  |68(2C 00 00 00      | PUSH &K1 Finalization{#$66}+44
+  24_11E5: √      |C3                  | RETN 
+  25_11E6: È....  |E9(00 00 00 00      | JMP &K2 @HandleFinally{#$1C}
+  2A_11EB: Î¯     |EB F8               | JMP -8 (0x24)
+  2C_11ED: ]      |5D                  | POP EBP
+  2D_11EE: √      |C3                  | RETN 
+end;
+
+procedure spatial{40,0}{B0:0,Sz:8,VProc:408}
+{LVFlags: 10,0, 0,0,0};
+begin//raw[$8]at $D7D
+  0_11EF: É-.....[83 2D(00 00 00 00 01| SUB DWORD PTR [&K1 _DV_1{#$1D}],1
+// -- Line #470 -- 
+  7_11F6: √      |C3(                 | RETN 
+end;
+
+end.
+
+Types defined: $9 of $9
+
+types
+  #1: modutils.i100
+  #2: globals.plantrec
+  #3: System.Integer
+  #4: System.Single
+  #5: System.Boolean
+  #6: System.Word
+  #7: {Sz: 4, RTTISz: 0, hAddr: 0}{(T#7),B:0}-$80000000..$7FFFFFFF
+  #8: void{Sz: 0, RTTISz: 0, hAddr: 0}
+  #9: {Sz: 4, RTTISz: 0, hAddr: 0}^{T#8}void{Sz: 0, RTTISz: 0, hAddr: 0}
+
+Addrs defined: $67
+
+addrs
+  #1: modutils.modutils
+  #2: modutils.min
+  #3: modutils.max
+  #4: modutils.i100
+  #5: modutils.shufl
+  #6: modutils.Expo
+  #7: globals.globals
+  #8: globals.casPtrs
+  #9: globals.ncas
+  #A: globals.deck
+  #B: globals.plantrec
+  #C: globals.plantsperrow
+  #D: globals.maxwidth
+  #E: globals.scattered
+  #F: globals.plantspacing
+  #10: globals.rowspacing
+  #11: globals.casvar
+  #12: SysInit.SysInit
+  #13: System.System
+  #14: System.Integer
+  #15: System.Single
+  #16: System.Boolean
+  #17: System.True
+  #18: System.False
+  #19: System.Abs
+  #1A: System.Word
+  #1B: System.Sqrt
+  #1C: System.@HandleFinally
+  #1D: _DV_1
+  #1E: cellarea
+  #1F: i
+  #20: j
+  #21: l
+  #22: t
+  #23: r
+  #24: b
+  #25: Result
+  #26: nl
+  #27: nt
+  #28: nr
+  #29: nb
+  #2A: h
+  #2B: w
+  #2C: inwind
+  #2D: xl
+  #2E: xr
+  #2F: ya
+  #30: yb
+  #31: left
+  #32: right
+  #33: top
+  #34: bottom
+  #35: Result
+  #36: limoverlap
+  #37: i
+  #38: ll
+  #39: lr
+  #3A: la
+  #3B: lb
+  #3C: j
+  #3D: k
+  #3E: thisx
+  #3F: thisy
+  #40: dx
+  #41: dy
+  #42: _Dv_
+  #43: findscatlims
+  #44: i
+  #45: ll
+  #46: lr
+  #47: la
+  #48: lb
+  #49: _Dv_
+  #4A: setsides
+  #4B: dist
+  #4C: maxmass
+  #4D: alpha
+  #4E: availarea
+  #4F: currentarea
+  #50: demarea
+  #51: suparea
+  #52: newarea
+  #53: newside
+  #54: leafarea
+  #55: newl
+  #56: newr
+  #57: newa
+  #58: newb
+  #59: limitl
+  #5A: limita
+  #5B: limitr
+  #5C: limitb
+  #5D: neww
+  #5E: newh
+  #5F: hwratio
+  #60: h
+  #61: w
+  #62: dek
+  #63: i
+  #64: k
+  #65: _Dv_
+  #66: Finalization
+  #67: spatial
+
+Data used: $D85 of $D85 
+
+Fixups: 116
+    0:      0 K 5 cellarea{$1E}
+    1:      E K 1 cellarea{$1E}
+    2:     14 K 1 cellarea{$1E}
+    3:     24 K 1 cellarea{$1E}
+    4:     2A K 1 cellarea{$1E}
+    5:     3A K 1 cellarea{$1E}
+    6:     40 K 1 cellarea{$1E}
+    7:     50 K 1 cellarea{$1E}
+    8:     56 K 1 cellarea{$1E}
+    9:     75 K 2 min{$2}
+   10:     D7 K 2 min{$2}
+   11:    140 K 5 inwind{$2C}
+   12:    1A3 K 5 limoverlap{$36}
+   13:    1B6 K 3 casPtrs{$8}
+   14:    1CC K 3 casPtrs{$8}
+   15:    1DD K 3 ncas{$9}
+   16:    1F0 K 3 deck{$A}
+   17:    200 K 3 casPtrs{$8}
+   18:    2AB K 2 max{$3}
+   19:    2BE K 1 limoverlap{$36}
+   20:    2D0 K 2 max{$3}
+   21:    301 K 1 limoverlap{$36}
+   22:    313 K 2 max{$3}
+   23:    324 K 1 limoverlap{$36}
+   24:    333 K 2 min{$2}
+   25:    365 K 3 plantsperrow{$C}
+   26:    379 K 2 max{$3}
+   27:    38C K 1 limoverlap{$36}
+   28:    39E K 2 max{$3}
+   29:    3CF K 1 limoverlap{$36}
+   30:    3E1 K 2 max{$3}
+   31:    3F2 K 1 limoverlap{$36}
+   32:    401 K 2 min{$2}
+   33:    440 K 2 min{$2}
+   34:    453 K 1 limoverlap{$36}
+   35:    465 K 2 min{$2}
+   36:    496 K 1 limoverlap{$36}
+   37:    4A8 K 2 min{$2}
+   38:    4B9 K 1 limoverlap{$36}
+   39:    4C8 K 2 max{$3}
+   40:    4F7 K 3 plantsperrow{$C}
+   41:    50B K 2 min{$2}
+   42:    51E K 1 limoverlap{$36}
+   43:    530 K 2 min{$2}
+   44:    561 K 1 limoverlap{$36}
+   45:    573 K 2 min{$2}
+   46:    584 K 1 limoverlap{$36}
+   47:    593 K 2 max{$3}
+   48:    5CB K 5 findscatlims{$43}
+   49:    5D6 K 3 casPtrs{$8}
+   50:    5E0 K 3 maxwidth{$D}
+   51:    5E8 K 1 findscatlims{$43}
+   52:    5F7 K 3 maxwidth{$D}
+   53:    5FF K 1 findscatlims{$43}
+   54:    60E K 3 maxwidth{$D}
+   55:    616 K 1 findscatlims{$43}
+   56:    625 K 3 maxwidth{$D}
+   57:    62D K 1 findscatlims{$43}
+   58:    643 K 2 limoverlap{$36}
+   59:    653 K 5 setsides{$4A}
+   60:    65E K 3 scattered{$E}
+   61:    669 K 3 ncas{$9}
+   62:    674 K 2 shufl{$5}
+   63:    67A K 3 ncas{$9}
+   64:    68C K 3 deck{$A}
+   65:    6A1 K 3 ncas{$9}
+   66:    6B3 K 3 deck{$A}
+   67:    6BE K 3 casPtrs{$8}
+   68:    6CE K 1 setsides{$4A}
+   69:    6DC K 3 scattered{$E}
+   70:    6FA K 2 findscatlims{$43}
+   71:    70C K 3 casPtrs{$8}
+   72:    73E K 3 plantspacing{$F}
+   73:    745 K 3 casPtrs{$8}
+   74:    76F K 1 setsides{$4A}
+   75:    787 K 3 casPtrs{$8}
+   76:    7B9 K 3 plantspacing{$F}
+   77:    7C0 K 3 casPtrs{$8}
+   78:    7EA K 1 setsides{$4A}
+   79:    802 K 3 casPtrs{$8}
+   80:    826 K 3 plantsperrow{$C}
+   81:    841 K 3 rowspacing{$10}
+   82:    848 K 3 casPtrs{$8}
+   83:    872 K 1 setsides{$4A}
+   84:    88A K 3 casPtrs{$8}
+   85:    8AE K 3 plantsperrow{$C}
+   86:    8C7 K 3 rowspacing{$10}
+   87:    8CE K 3 casPtrs{$8}
+   88:    8F8 K 1 setsides{$4A}
+   89:    91B K 1 setsides{$4A}
+   90:    940 K 1 setsides{$4A}
+   91:    95C K 1 setsides{$4A}
+   92:    972 K 3 casvar{$11}
+   93:    986 K 1 setsides{$4A}
+   94:    998 K 2 max{$3}
+   95:    9BA K 1 setsides{$4A}
+   96:    9DF K 2 Expo{$6}
+   97:    9E5 K 1 setsides{$4A}
+   98:    A05 K 1 setsides{$4A}
+   99:    A1C K 1 setsides{$4A}
+  100:    A2F K 1 setsides{$4A}
+  101:    BC3 K 1 setsides{$4A}
+  102:    BD8 K 1 setsides{$4A}
+  103:    CA0 K 1 setsides{$4A}
+  104:    CB6 K 1 setsides{$4A}
+  105:    CD1 K 1 setsides{$4A}
+  106:    CE7 K 1 setsides{$4A}
+  107:    D00 K 1 setsides{$4A}
+  108:    D4F K 5 Finalization{$66}
+  109:    D56 K 1 Finalization{$66}
+  110:    D62 K 1 _DV_1{$1D}
+  111:    D6F K 1 Finalization{$66}
+  112:    D75 K 2 @HandleFinally{$1C}
+  113:    D7D K 5 spatial{$67}
+  114:    D7F K 1 _DV_1{$1D}
+  115:    D85 K 6 spatial{$67}
+
+Local Variables: 46
+     0:   30 32 p:cellarea{$1E}
+     1:    0 1 16
+     2:    6 EAX(0) i{$1F}
+     3:    6 EDX(1) j{$20}
+     4:   32 / i{$1F}
+     5:   5E / j{$20}
+     6:   60 0 p:inwind{$2C}
+     7:   30 1 20
+     8:    B EAX(0) xl{$2D}
+     9:    B EDX(1) xr{$2E}
+    10:    B ECX(2) ya{$2F}
+    11:    B ESI(4) yb{$30}
+    12:    B EDI(5) left{$31}
+    13:   57 / xl{$2D}
+    14:   57 / xr{$2E}
+    15:   57 / ya{$2F}
+    16:   57 / yb{$30}
+    17:   57 / left{$31}
+    18:   30 32 p:limoverlap{$36}
+    19:   38 1 8
+    20:   53 EDI(5) k{$3D}
+    21:   65 EBX(3) _Dv_{$42}
+    22:  374 / k{$3D}
+    23:  3DA / _Dv_{$42}
+    24:   60 0 p:findscatlims{$43}
+    25:   38 1 8
+    26:    9 EAX(0) i{$44}
+    27:    9 EDX(1) ll{$45}
+    28:    9 ECX(2) lr{$46}
+    29:    9 ESI(4) la{$47}
+    30:   13 EBX(3) _Dv_{$49}
+    31:   72 / _Dv_{$49}
+    32:   7C / i{$44}
+    33:   7C / ll{$45}
+    34:   7C / lr{$46}
+    35:   7C / la{$47}
+    36:   30 496 p:setsides{$4A}
+    37:   78 0 0
+    38:   67 ECX(2) i{$63}
+    39:   88 EBX(3) _Dv_{$65}
+    40:  294 / i{$63}
+    41:  6B8 / _Dv_{$65}
+    42:   10 0 p:Finalization{$66}
+    43:    0 8 0
+    44:   10 0 p:spatial{$67}
+    45:    0 0 0
+
+

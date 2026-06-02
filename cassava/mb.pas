@@ -15,7 +15,7 @@
 {$N+,E-}
 Unit MB;
 interface
-uses globals,Modutils,bio,para;
+uses globals,Modutils,bio,para,rng;
 {Procedure Infest(np:integer);}
 Procedure CmbSetup(ncas:integer);
 Procedure CmbImmig(var plant:plantrec;np:integer);

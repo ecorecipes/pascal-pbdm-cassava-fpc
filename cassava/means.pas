@@ -100,7 +100,7 @@ begin
 		begin
 			with gmptrs[i]^ do for k:=1 to 4 do gmt[k]:=gmt[k]+gmnums[k];
 
-			if Taripoin then with Taripoptrs[i]^ do Taripot:=Taripot+predreport; {Predreport is set in Preds.pas.}
+			if Taripoin then with Taripoptrs[i]^ do Taripot:=Taripot+predreport;
 			if Tmanihotiin then with Tmanihotiptrs[i]^ do Tmanihotit:=Tmanihotit+predreport;
 		end;
 	

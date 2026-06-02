@@ -15,7 +15,7 @@
 {$N+,E-}
 Unit Para;
 interface
-uses globals,Modutils;
+uses globals,Modutils,rng;
 Procedure Parasetup;
 Procedure Paras(np:integer;goel,goed:boolean;mbn:single6);
 Procedure Edimmig(var mbr:mbrec;np:integer);
@@ -278,7 +278,7 @@ begin
 	wgtedlh := 0.328 * mbn[3]
 			 + 0.514 * mbn[4]
 			 + 1.000 * mbn[5]
-			 + 1.000{0.514} * mbn[6]
+			 + 1.000 * mbn[6] { legacy value; matches paper standalone b_Al=958, see PORTING_NOTES.md }
 	         + 0.25 * parael*delkel
 	         + 0.25 * paraed*delked;
 	{ elfrac is attacked fraction of host }
@@ -303,7 +303,7 @@ begin
 		if mbn[3]>0.0 then lxlmb[3]:=1.0-min(1.0,natkd*0.328*mbn[3]/wgtedlh/mbn[3]);
 		if mbn[4]>0.0 then lxlmb[4]:=1.0-min(1.0,natkd*0.514*mbn[4]/wgtedlh/mbn[4]);
 		if mbn[5]>0.0 then lxlmb[5]:=1.0-min(1.0,natkd*1.0*mbn[5]/wgtedlh/mbn[5]);
-		if mbn[6]>0.0 then lxlmb[6]:=1.0-min(1.0,natkd*1.0 {0.514} *mbn[6]/wgtedlh/mbn[6]);
+		if mbn[6]>0.0 then lxlmb[6]:=1.0-min(1.0,natkd*1.0 {legacy value; see PORTING_NOTES.md} *mbn[6]/wgtedlh/mbn[6]);
 	end;
 end;
 

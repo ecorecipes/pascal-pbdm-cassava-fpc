@@ -14,7 +14,7 @@
 
 Unit water;
 interface
-uses globals,Modutils,spatial;
+uses globals,Modutils,spatial,rng;
 
 procedure initwat(var layer:soilrec);
 Function Wav(sl,sa,sr,sb:single):single;

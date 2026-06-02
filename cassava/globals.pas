@@ -200,7 +200,7 @@ ElRec = record
 	sexratio:single;
 end;
 
-{{variables for each e.diversicornis population}
+{variables for each e.diversicornis population}
 EdRec = record
 	godelay:integer; {days this pop. delays after mb}
 	edfrn,edmrn : Single100;
@@ -455,7 +455,7 @@ var
 	gmTaripomort,gmTmanihotimort:Single100; {mortalities to gm due to pred1, pred2}
 
 
-	immigmethod,immigmethodsave : integer; {1=source unknown, 2=daily migrant pool}
+		immigmethod,immigmethodsave : integer; {1=source unknown, 2=daily migrant pool}
 	immigcounter:integer;
 	{
 		pools of migrants.

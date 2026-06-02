@@ -1,6 +1,6 @@
 Unit setupcas;
 interface
-uses globals,Modutils;
+uses globals,Modutils,rng;
 Procedure setupcasxy;
 
 implementation

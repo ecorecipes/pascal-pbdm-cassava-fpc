@@ -1,0 +1,6 @@
+# Ignore all actual data in this directory (large, not version-controlled),
+# but keep the directory itself and its documentation so scripts can use
+# repo-relative paths (./data/...).
+*
+!.gitignore
+!README.md

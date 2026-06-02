@@ -14,7 +14,7 @@
 
 Unit preds;
 interface
-uses globals,Modutils;
+uses globals,Modutils,rng;
 Procedure predsetup;
 Procedure greenpreds(np:integer);
 

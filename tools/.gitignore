@@ -1,0 +1,21 @@
+# Build artifacts for the in-repo tools (regenerable; track source only).
+# Repo-root .gitignore already covers *.o, *.ppu, *.a, *.exe, *.dll, *.so, *.map.
+
+# Compiled binaries (no extension)
+agmerra_to_pascal_weather
+download_cropgrids
+build_cassava_mask
+DCU32INT/DCU32INT
+
+# Linker / resource / FPC intermediate artifacts
+*.res
+*.or
+*.rfi
+*.RFI
+*.rsm
+link*.res
+linkfiles*.res
+
+# Python bytecode cache
+__pycache__/
+*.pyc

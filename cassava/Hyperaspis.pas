@@ -14,7 +14,7 @@
 
 Unit Hyperaspis; //Hyperaspis jucunda
 interface
-uses globals,Modutils;
+uses globals,Modutils,rng;
 Procedure Hjmod(np:integer);
 Procedure Hjsetup(ncas:integer);
 

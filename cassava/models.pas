@@ -14,7 +14,7 @@
 
 Unit models;
 interface
-uses globals,Modutils,water,Hyperaspis,mb,para,casbio,bio,gmite,preds,nitr,output;
+uses globals,Modutils,water,Hyperaspis,mb,para,casbio,bio,gmite,preds,nitr,output,rng;
 
 procedure plantsloop;
 implementation

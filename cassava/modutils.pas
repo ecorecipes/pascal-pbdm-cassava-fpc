@@ -17,10 +17,9 @@ Unit modutils;
 Procedures and Functions used in all models programs.
 *)
 interface
-uses globals,sysutils;
+uses globals,sysutils,rng;
 type
 	SINGLE100100 = array[1..100, 1..100] of single; //used for 2d delay
-	i100         = array[1..100] of integer;
 
 Var
 	ok:boolean;
@@ -125,6 +124,7 @@ Procedure wdwvec(     Xl:single;      {left edge of window}
 Procedure Xrdate(wd:single;j,year:integer;var month,nday:byte);
 
 Function Zerone(x:single):single;
+
 implementation
 
 Function Asin(Arg:single) : single;
@@ -653,6 +653,29 @@ begin
 end; 
 
 
+{$IFDEF CPUI386}
+Function DelphiExp(X:Extended):Extended; assembler;
+{ Bit-exact replica of Delphi 3's System.Exp x87 sequence.  FPC's i386 RTL
+  exp() differs from Delphi 3 by up to 1 ULP in 80-bit extended for some
+  arguments (e.g. exp(3.185)), which accumulates to ~0.03% over a multi-year
+  run.  Using Delphi's exact FLDL2E/F2XM1/FSCALE sequence reproduces Delphi's
+  result bit-for-bit.  See PORTING_NOTES.md (arithmetic matching). }
+asm
+  FLD     X
+  FLDL2E
+  FMUL
+  FLD     ST(0)
+  FRNDINT
+  FSUB    ST(1), ST(0)
+  FXCH    ST(1)
+  F2XM1
+  FLD1
+  FADD
+  FSCALE
+  FSTP    ST(1)
+end;
+{$ENDIF}
+
 Function Expo(arg:single):single;
 {limit argument to exp Function. 14mar90}
 //Limits tested again 10/03/06 using Pentium(R) 4.
@@ -661,7 +684,11 @@ var a:single;
 begin
      a:=arg;
      if a>88.6 then a:=88.6;
+     {$IFDEF CPUI386}
+     expo:=DelphiExp(a);
+     {$ELSE}
      expo:=exp(a);
+     {$ENDIF}
 end;
 
 Function Fahr(celsius:single):single;
@@ -1128,5 +1155,6 @@ begin
 	if x<1.0 then zerone:=x else
 	zerone:=1.0;
 end;
+
 end.
 

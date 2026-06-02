@@ -14,7 +14,7 @@
 
 unit init;
 interface
-uses mb,para,gmite,preds,globals,Modutils,nitr,water,setupcas,Hyperaspis,sysutils;
+uses mb,para,gmite,preds,globals,Modutils,nitr,water,setupcas,Hyperaspis,sysutils,rng;
 
 procedure ReadInputs;
 procedure initMisc;
@@ -86,10 +86,46 @@ begin
 	end;
 end;
 
+{$IFDEF DUMPINPUTS}
+procedure DumpParsedInputs;
+var dmp: text;
+begin
+	assign(dmp,'inputs_dump.txt'); rewrite(dmp);
+	writeln(dmp,'longitude=',Longitude);
+	writeln(dmp,'latitudedegrees=',LatitudeDegrees);
+	writeln(dmp,'month1=',month1,' day1=',day1,' year1=',year1);
+	writeln(dmp,'month2=',month2,' day2=',day2,' year2=',year2);
+	writeln(dmp,'GisOutPutInterval=',GisOutPutInterval);
+	writeln(dmp,'jdayStart=',jdayStart,' jdayEnd=',jdayEnd,' ndays=',ndays);
+	writeln(dmp,'ncasin=',ncasin,' plantdistr=',plantdistr,' scattered=',scattered);
+	writeln(dmp,'datespread=',datespread);
+	writeln(dmp,'wxcons1=',wxcons[1],' wxcons2=',wxcons[2],' wxcons3=',wxcons[3],' wxcons4=',wxcons[4],' wxcons5=',wxcons[5]);
+	writeln(dmp,'casiety=',casiety);
+	writeln(dmp,'cbf=',cbf);
+	writeln(dmp,'ranstick=',ranstick);
+	writeln(dmp,'plantspacingin=',plantspacingin,' rowspacingin=',rowspacingin);
+	writeln(dmp,'plantspacing=',plantspacing,' rowspacing=',rowspacing);
+	writeln(dmp,'casdensity=',casdensity,' halfx=',halfx,' halfy=',halfy);
+	writeln(dmp,'pspacedist=',pspacedist,' rspacedist=',rspacedist);
+	writeln(dmp,'totpwp=',totpwp,' soilwin=',soilwin,' soilwmaxin=',soilwmaxin);
+	writeln(dmp,'orgin=',orgin,' soilnin=',soilnin,' phosphate=',phosphate);
+	writeln(dmp,'nitdis=',nitdis,' nitdisvar=',nitdisvar,' nitgrad=',nitgrad);
+	writeln(dmp,'watdis=',watdis,' watdisvar=',watdisvar,' watgrad=',watgrad);
+	writeln(dmp,'modout=',modout,' daily=',daily,' summary=',summary,' GisOutputTarget=',GisOutputTarget);
+	writeln(dmp,'CMBinfield=',CMBinfield,' ndlcmb=',ndlcmb,' cmbbeta=',cmbbeta,' cmbrem=',cmbrem,' cmbDelay=',cmbDelay);
+	writeln(dmp,'mbimmigprobin=',mbimmigprobin,' mbinsin=',mbinsin,' mbinspcnt=',mbinspcnt);
+	writeln(dmp,'elinfield=',elinfield,' mbLevElStart=',mbLevElStart,' elimmigprobin=',elimmigprobin,' elinsin=',elinsin,' elinspcnt=',elinspcnt);
+	writeln(dmp,'edinfield=',edinfield,' mbLevEdStart=',mbLevEdStart,' edimmigprobin=',edimmigprobin,' edinsin=',edinsin,' edinspcnt=',edinspcnt);
+	writeln(dmp,'gminfield=',gminfield,' gmimmigprobin=',gmimmigprobin,' gminsin=',gminsin,' gminspcnt=',gminspcnt);
+	writeln(dmp,'Taripoinfield=',Taripoinfield,' gmWgtTaripoStart=',gmWgtTaripoStart,' Taripoimmigprobin=',Taripoimmigprobin);
+	writeln(dmp,'Tmanihotiinfield=',Tmanihotiinfield,' gmWgtTmanihotiStart=',gmWgtTmanihotiStart,' Tmanihotiimmigprobin=',Tmanihotiimmigprobin);
+	writeln(dmp,'hjinfield=',hjinfield,' ndelayhj=',ndelayhj,' HJMBLEV=',HJMBLEV,' HJimmigprob=',HJimmigprob,' hjinsin=',hjinsin,' hjinspcnt=',hjinspcnt);
+	writeln(dmp,'fminfield=',fminfield,' immigmethod=',immigmethod,' randseed=',randseed);
+	close(dmp);
+end;
+{$ENDIF}
+
 procedure ReadInputs;
-(*
-     read initialization info from setup file.
-*)
 type string10 = string[10];
 var
 
@@ -493,6 +529,10 @@ begin
 
 	maxwidth:=2.0; {for scattered, unlimitted growth.}
 	GisFileIndex:=0; {Used for sequential naming of gis output files}
+
+{$IFDEF DUMPINPUTS}
+	DumpParsedInputs;
+{$ENDIF}
 end; {procedure ReadInputs}
 
 

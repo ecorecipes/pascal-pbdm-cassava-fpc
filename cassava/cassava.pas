@@ -14,7 +14,7 @@
 
 {$N+,E-} (* compiler directive=use mathchip *)
 uses globals,Modutils,bio,setupcas,init,wxread,spatial,nitr,output,casbio,water,models,Means,
-	SummaryUnit,sysutils;
+	SummaryUnit,sysutils,rng;
 {$I GetDDs.pas}
 {$I harv.pas}
 {$I setsvar.pas}

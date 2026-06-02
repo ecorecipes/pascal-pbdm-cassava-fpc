@@ -1,0 +1,33 @@
+unit spatial;
+{
+Compiled by Delphi 3
+Source files:
+  spatial.pas (1-1-98 01:05:01)}
+
+interface
+
+uses
+  modutils {
+    A:min, A:max, T:i100, A:shufl, A:Expo},
+  globals {
+    A:casPtrs, A:ncas, A:deck, T:plantrec, A:plantsperrow, A:maxwidth,
+    A:scattered, A:plantspacing, A:rowspacing, A:casvar},
+  SysInit,
+  System {
+    T:Integer, T:Single, T:Boolean, A:True, A:False, A:Abs, T:Word, A:Sqrt,
+    A:@HandleFinally};
+
+function cellarea (i: System.Integer; j: System.Integer; l: System.Single;
+  t: System.Single; r: System.Single; b: System.Single): System.Single;
+
+function inwind (xl: System.Integer; xr: System.Integer;
+  ya: System.Integer; yb: System.Integer; left: System.Integer;
+  right: System.Integer; top: System.Integer; bottom: System.Integer):
+  System.Boolean;
+
+procedure setsides;
+
+procedure Finalization;
+
+procedure spatial;
+

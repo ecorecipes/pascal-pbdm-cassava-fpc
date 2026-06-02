@@ -15,7 +15,7 @@
 {$N+,E-}
 Unit Gmite;
 interface
-uses globals,Modutils;
+uses globals,Modutils,rng;
 Procedure Gmsetup(ncas:integer);
 Procedure Greenmite(np:integer);
 implementation
